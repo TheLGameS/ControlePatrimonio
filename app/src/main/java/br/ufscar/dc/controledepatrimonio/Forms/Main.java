@@ -6,6 +6,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import br.ufscar.dc.controledepatrimonio.R;
+import br.ufscar.dc.controledepatrimonio.Util.Database.Database;
+import br.ufscar.dc.controledepatrimonio.Util.Database.DatabaseHelper;
 
 public class Main extends AppCompatActivity {
 
@@ -13,6 +15,9 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Database db = new Database(this);
+
     }
 
     @Override

@@ -1,6 +1,14 @@
 <resources>
     <string name="app_name">Controle de Patrimonio</string>
+    <string name="title_activity_departamento">Departamento</string>
+    <string name="title_activity_cad_departamento">Cadastro de Departamento</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="btnDepartamento">Departamento</string>
+    <string name="btnActivity_Cadastrar_Departamento">Cadastrar Departamento</string>
+    <string name="lblDepartamento_Nome">Nome</string>
+    <string name="lblDepartamento_Sigla">Sigla</string>
+    <string name="btnGravar">Gravar</string>
     <string name="action_settings">Settings</string>
+
+
 </resources>

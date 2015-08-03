@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Forms.DepartamentoActivity"
+            android:label="@string/title_activity_departamento" >
+        </activity>
+        <activity
+            android:name=".Forms.CadDepartamentoActivity"
+            android:label="@string/title_activity_cad_departamento" >
+        </activity>
     </application>
 
 </manifest>

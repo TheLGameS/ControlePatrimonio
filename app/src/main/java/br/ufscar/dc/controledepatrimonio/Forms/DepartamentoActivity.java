@@ -23,12 +23,21 @@ public class DepartamentoActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-
                 Intent intent = new
                         Intent(DepartamentoActivity.this, CadDepartamentoActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
 
+        Button btnListar_Departamento = (Button) findViewById(R.id.btnActivity_Listar_Departamento);
+        btnListar_Departamento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                Intent intent = new
+                        Intent(DepartamentoActivity.this, ListarDepartamentoActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

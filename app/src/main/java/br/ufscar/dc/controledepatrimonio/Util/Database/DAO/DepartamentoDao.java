@@ -16,7 +16,7 @@ public class DepartamentoDao {
         this.db = db;
     }
 
-    public void inserirDepartamento(Departamento departamento) {
+    public void inserir(Departamento departamento) {
         ContentValues val = new ContentValues();
         val.put("nome", departamento.getNome());
         val.put("sigla", departamento.getSigla());
@@ -24,7 +24,7 @@ public class DepartamentoDao {
         db.insert("Departamento", null, val);
     }
 
-    public void atualizarDepartamento(Departamento departamento) {
+    public void atualizar(Departamento departamento) {
         ContentValues val = new ContentValues();
         val.put("nome", departamento.getNome());
         val.put("sigla", departamento.getSigla());
@@ -32,11 +32,11 @@ public class DepartamentoDao {
         db.update("Departamento", val, "_id=" + departamento.getId(), null);
     }
 
-    public void deletarDepartamento(Departamento departamento) {
+    public void deletar(Departamento departamento) {
         db.delete("Departamento", "_id=" + departamento.getId(), null);
     }
 
-    public List<Departamento> buscarDepartamentos() {
+    public List<Departamento> buscarTodos() {
         List<Departamento> departamentos = new ArrayList<>();
         String[] colunas = new String[]{"_id", "nome","sigla"};
 
@@ -57,5 +57,23 @@ public class DepartamentoDao {
         }
 
         return departamentos;
+    }
+
+    public Departamento buscarPorId(int id) {
+        Departamento departamento = new Departamento();
+        String[] colunas = new String[]{"_id", "nome","sigla"};
+
+        Cursor cursor = db.query("Departamento",colunas,"_id ="+id, null,null,null,null);
+
+        if (cursor.getCount() == 1) {
+            departamento.setId(cursor.getInt(0));
+            departamento.setSigla(cursor.getString(1));
+            departamento.setNome(cursor.getString((2)));
+        }
+        else {
+            return null;
+        }
+
+        return departamento;
     }
 }

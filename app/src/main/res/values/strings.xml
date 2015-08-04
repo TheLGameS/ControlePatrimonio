@@ -4,11 +4,14 @@
     <string name="title_activity_cad_departamento">Cadastro de Departamento</string>
 
     <string name="btnDepartamento">Departamento</string>
-    <string name="btnActivity_Cadastrar_Departamento">Cadastrar Departamento</string>
+    <string name="btnActivity_Cadastrar_Departamento">Cadastrar</string>
     <string name="lblDepartamento_Nome">Nome</string>
     <string name="lblDepartamento_Sigla">Sigla</string>
     <string name="btnGravar">Gravar</string>
     <string name="action_settings">Settings</string>
-
+    <string name="btnListar_Departamento">Listar</string>
+    <string name="title_activity_listar_departamento">ListarDepartamentoActivity</string>
+    <string name="btnEditar">Editar</string>
+    <string name="btnExcluir">Excluir</string>
 
 </resources>

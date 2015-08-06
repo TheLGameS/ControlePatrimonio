@@ -8,10 +8,37 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Main">
 
-    <Button
-        android:id="@+id/btnDepartamento"
+    <LinearLayout
+        android:id="@+id/frmlogotipo"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btnDepartamento"/>
+        android:layout_height="100dp">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:src="@drawable/dmufscar" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/frmbotoes"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/frmlogotipo">
+
+        <Button
+            android:id="@+id/btnIniciarRFID"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="RFID" />
+
+        <Button
+            android:id="@+id/btnDepartamento"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/btnDepartamento" />
+    </LinearLayout>
 
 </RelativeLayout>

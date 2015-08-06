@@ -59,7 +59,9 @@ public class DepartamentoAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Database db = new Database(ctx);
                 db.deletarDepartamento(departamentos.get(auxPosition));
+                departamentos.remove(auxPosition);
 
+                notifyDataSetChanged();
                 layout.setVisibility(View.GONE);
             }
         });

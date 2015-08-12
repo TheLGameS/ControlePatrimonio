@@ -2,7 +2,12 @@ package br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.ufscar.dc.controledepatrimonio.Entity.Patrimonio;
 import br.ufscar.dc.controledepatrimonio.Forms.ListarEtiquetaActivity;
 import br.ufscar.dc.controledepatrimonio.Util.RFID.ILeitor;
 import br.ufscar.dc.controledepatrimonio.Util.RFID.Leitor;
@@ -15,7 +20,6 @@ public class R900 extends Leitor implements ILeitor {
     protected int mTimeout;
     protected boolean mQuerySelected;
     private String mStrAccessErrMsg;
-
 
     public R900(Activity activity, Handler handler, OnBtEventListener listener) {
         super(activity, handler, listener);
@@ -91,7 +95,7 @@ public class R900 extends Leitor implements ILeitor {
             if (CMD.indexOf("ok") == 0)
                 mStrAccessErrMsg = null;
         } else {
-            if( mLastCmd.equalsIgnoreCase(R900Protocol.CMD_INVENT) )
+            if (mLastCmd.equalsIgnoreCase(R900Protocol.CMD_INVENT))
                 atualizarListaTag(param);
         }
     }
@@ -140,6 +144,21 @@ public class R900 extends Leitor implements ILeitor {
         R900Status.setOperationMode(0);
         mLastCmd = R900Protocol.CMD_STOP;
         sendData(R900Protocol.makeProtocol(mLastCmd, (int[]) null));
+    }
+
+    private void pararComunicacaoLeitor() {
+        sendData(R900Protocol.BYE);
+    }
+
+    public void finalize() {
+        try {
+            pararComunicacaoLeitor();
+            super.finalize();
+        }
+        catch (Exception ex) {
+            Log.d("ERRO", ex.getMessage());
+        }
+
     }
 
 }

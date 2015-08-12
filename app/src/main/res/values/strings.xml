@@ -3,7 +3,7 @@
     <string name="title_activity_departamento">Departamento</string>
     <string name="title_activity_cad_departamento">Cadastro de Departamento</string>
 
-    <string name="btnDepartamento">Departamento</string>
+    <string name="btnPatrimonio">Patrimonio</string>
     <string name="btnActivity_Cadastrar_Departamento">Cadastrar</string>
     <string name="lblDepartamento_Nome">Nome</string>
     <string name="lblDepartamento_Sigla">Sigla</string>
@@ -22,5 +22,7 @@
     <string name="btnLer_Tag">LER</string>
     <string name="title_activity_cad_responsavel">CadResponsavelActivity</string>
     <string name="title_activity_listar_etiqueta">ListarEtiqueta</string>
+    <string name="title_activity_etiqueta_adapter">EtiquetaAdapter</string>
+    <string name="lblTotalTags">Lido:</string>
 
 </resources>

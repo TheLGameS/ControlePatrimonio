@@ -9,13 +9,17 @@
     tools:context=".Main">
 
     <LinearLayout
-        android:id="@+id/frmlogotipo"
         android:layout_width="fill_parent"
-        android:layout_height="100dp">
+        android:layout_height="wrap_content"
+        android:id="@+id/llLogotipo"
+        android:orientation="vertical"
+        >
 
         <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:id="@+id/imgLogotipo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:src="@drawable/dmufscar" />
     </LinearLayout>
 
@@ -23,8 +27,8 @@
         android:id="@+id/frmbotoes"
         android:layout_width="fill_parent"
         android:layout_height="100dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/frmlogotipo">
+        android:layout_below="@+id/llLogotipo"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnIniciarRFID"
@@ -34,11 +38,11 @@
             android:text="RFID" />
 
         <Button
-            android:id="@+id/btnDepartamento"
+            android:id="@+id/btnPatrimonio"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:text="@string/btnDepartamento" />
+            android:text="@string/btnPatrimonio" />
     </LinearLayout>
 
 </RelativeLayout>

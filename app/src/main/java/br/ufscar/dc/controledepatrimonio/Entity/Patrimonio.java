@@ -88,4 +88,20 @@ public class Patrimonio {
     public void setEnviarBancoOnline(boolean enviarBancoOnline) {
         this.enviarBancoOnline = enviarBancoOnline;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Patrimonio that = (Patrimonio) o;
+
+        return TagRFID.equals(that.TagRFID);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return TagRFID.hashCode();
+    }
 }

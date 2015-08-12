@@ -23,13 +23,12 @@ public class Main extends AppCompatActivity {
         db = new Database(getApplicationContext());
 
         //region Botão Departamento
-        Button btnDepartamento = (Button) findViewById(R.id.btnDepartamento);
+        Button btnDepartamento = (Button) findViewById(R.id.btnPatrimonio);
         btnDepartamento.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(Main.this, DepartamentoActivity.class);
-                startActivity(intent);
+
             }
         });
         //endregion

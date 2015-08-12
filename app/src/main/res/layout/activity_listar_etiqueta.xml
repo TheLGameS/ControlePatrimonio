@@ -12,14 +12,34 @@
         android:id="@+id/lstEtiquetas"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/btnTeste">
-        
+        android:layout_above="@+id/rlTotal_Tags">
+
+
     </ListView>
 
-    <Button
-        android:id="@+id/btnTeste"
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:id="@+id/rlTotal_Tags"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/btnLer_Tag"/>
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/lblDescTotalTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblTotalTags"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/lblTotalTags"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/lblDescTotalTags"
+            android:paddingLeft="10dp"
+            android:text="1000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 </RelativeLayout>

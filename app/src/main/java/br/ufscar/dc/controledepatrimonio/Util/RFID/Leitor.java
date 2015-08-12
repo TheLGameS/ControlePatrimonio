@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -28,10 +29,6 @@ import br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900.OnBtEventListener;
 import br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900.R900RecvPacketParser;
 
 public class Leitor {
-    public void setSelTag(String mSelTag) {
-        this.mSelTag = mSelTag;
-    }
-
     public enum BluetoothEstado {LIGADO, DESLIGADO, NAO_COMPATIVEL;}
 
     public static final String ACTION_REQUEST_ENABLE = BluetoothAdapter.ACTION_REQUEST_ENABLE;
@@ -43,22 +40,12 @@ public class Leitor {
     private UUID mUuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     protected R900RecvPacketParser mPacketParser = new R900RecvPacketParser();
     private ArrayList<HashMap<String, String>> mArrTag;
-    public static final int MSG_SOUND_RX = 40;
     private String mSelTag;
-
-    public BluetoothDevice getDispositivo() {
-        return dispositivo;
-    }
-
-    public void setDispositivo(BluetoothDevice dispositivo) {
-        this.dispositivo = dispositivo;
-    }
-
     private BluetoothDevice dispositivo;
     protected boolean mConnected;
     protected Handler mHandler;
     public static final int MSG_BT_DATA_RECV = 10;
-
+    private static final int MSG_ENCONTROU_BLUETOOTH = 1;
     private FileOutputStream mDbgOutStream;
     protected ConnectedThread mConnectedThread;
     protected ConnectThread mConnectThread;
@@ -70,6 +57,18 @@ public class Leitor {
     }
 
     private List<Patrimonio> listaPatrimonio = new ArrayList<>();
+
+    public void setSelTag(String mSelTag) {
+        this.mSelTag = mSelTag;
+    }
+
+    public BluetoothDevice getDispositivo() {
+        return dispositivo;
+    }
+
+    public void setDispositivo(BluetoothDevice dispositivo) {
+        this.dispositivo = dispositivo;
+    }
 
     public List<BluetoothDevice> getListaDispositivo() {
         return listaDispositivo;
@@ -183,7 +182,7 @@ public class Leitor {
     //endregion
 
     //region finalize: RESPONSÁVEL POR FINALIZAR A DESCOBERTA DE DISPOSITIVOS
-    public void finalize() {
+    protected void finalize() {
         if (mBluetoothAdapter != null && mBluetoothAdapter.isDiscovering())
             mBluetoothAdapter.cancelDiscovery();
 
@@ -227,6 +226,7 @@ public class Leitor {
                     return;
                 }
 
+                mHandler.sendEmptyMessage(MSG_ENCONTROU_BLUETOOTH);
                 listaDispositivo.add(device);
             }
         }
@@ -344,26 +344,23 @@ public class Leitor {
     //endregion
 
     protected void atualizarListaTag(final String param) {
-        try {
-            Patrimonio patrimonio;
+        Patrimonio patrimonio;
 
-            Database db = new Database(activity.getApplicationContext());
+        Database db = new Database(activity.getApplicationContext());
 
-            if (param == null || param.length() <= 4)
-                return;
+        if (param == null || param.length() <= 4)
+            return;
 
-            final String tagRFId = param.substring(0, param.length() - 4);
+        final String tagRFId = param.substring(0, param.length() - 4);
 
-            patrimonio = db.buscarPatrimonioTag(tagRFId);
-            if (patrimonio == null)
-                patrimonio = new Patrimonio();
+        patrimonio = db.buscarPatrimonioTag(tagRFId);
+        if (patrimonio == null)
+            patrimonio = new Patrimonio();
 
-                patrimonio.setTagRFID(tagRFId);
+        patrimonio.setTagRFID(tagRFId);
+
+        if (!listaPatrimonio.contains(patrimonio))
             listaPatrimonio.add(patrimonio);
-        }
-        catch (Exception ex) {
-            Log.d("Erro:", ex.getMessage());
-        }
-
     }
+
 }

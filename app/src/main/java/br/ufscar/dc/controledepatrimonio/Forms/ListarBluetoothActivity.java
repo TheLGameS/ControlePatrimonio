@@ -27,14 +27,14 @@ public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEv
     private R900 leitor;
     private BluetoothListItem itemBluetooth;
     private List<BluetoothDevice> listaDispositivo;
-    public final int MSG_CONECTOU = 1;
+    public final int MSG_ENCONTROU_BLUETOOTH = 1;
 
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(final Message msg) {
             switch (msg.what) {
-                case MSG_CONECTOU:
-                    //BOTAR PRO LEITOR APITAR
+                case MSG_ENCONTROU_BLUETOOTH:
+                    itemBluetooth.notifyDataSetChanged();
                     break;
             }
         }
@@ -55,7 +55,6 @@ public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEv
             public void onClick(View arg0) {
                 leitor.buscarBluetooth();
                 listaDispositivo = leitor.getListaDispositivo();
-                itemBluetooth.notifyDataSetChanged();
             }
         });
         //endregion
@@ -120,16 +119,7 @@ public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEv
         }
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        try {
-            leitor.pararBusca();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        finish();
-    }
+
     //endregion
 
     //region Métodos não utilizados

@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -43,6 +42,11 @@
         </activity>
 
         <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+
+        <activity
+            android:name=".Forms.PatrimonioAdapter"
+            android:label="@string/title_activity_etiqueta_adapter" >
+        </activity>
     </application>
 
 </manifest>

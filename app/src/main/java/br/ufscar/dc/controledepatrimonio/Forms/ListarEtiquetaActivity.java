@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import br.ufscar.dc.controledepatrimonio.Entity.Patrimonio;
 import br.ufscar.dc.controledepatrimonio.R;
@@ -18,6 +22,7 @@ import br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900.OnBtEventListener;
 import br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900.R900;
 
 public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEventListener {
+    //region VARIAVEIS
     private R900 leitor;
     public static final int MSG_ENABLE_LINK_CTRL = 10;
     public static final int MSG_DISABLE_LINK_CTRL = 11;
@@ -36,17 +41,23 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
             {"90%", "80%", "60%", "41%", "20%"};
 
     public static int Type;
-    public static class SelectMask
-    {
+
+    public static class SelectMask {
         public int Bank;
         public int Offset;
         public int Bits;
         public String Pattern;
         public String TagId;
     }
+
     public static SelectMask SelMask = new SelectMask();
     public static boolean UseMask = false;
+    private TextView lblTotalTags;
+    private ListView lstPatrimonio;
+    private BaseAdapter mAdapterTag;
+    //endregion
 
+    //region HANDLER
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(final Message msg) {
@@ -57,10 +68,19 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
                 case MSG_SHOW_TOAST:
                     Toast.makeText(ListarEtiquetaActivity.this, (String) msg.obj, Toast.LENGTH_LONG).show();
                     break;
+                case MSG_REFRESH_LIST_TAG:
+                    try {
+                        mAdapterTag.notifyDataSetChanged();
+
+                        lblTotalTags.setText(String.valueOf(leitor.getListaPatrimonio().size()));
+                    } catch (Exception ex) {
+                        Log.d("ERRO", ex.getMessage());
+                    }
+
             }
         }
     };
-
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,43 +93,31 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
             String addressDispositivo = getIntent().getExtras().getString("addressDispositivo");
             leitor.conectar(addressDispositivo);
 
-            //region Botão RFID
-            final Button btnTeste = (Button) findViewById(R.id.btnTeste);
-            btnTeste.setOnClickListener(new View.OnClickListener() {
+            lblTotalTags = (TextView) findViewById(R.id.lblTotalTags);
+            lblTotalTags.setText("0");
+            lstPatrimonio = (ListView) findViewById(R.id.lstEtiquetas);
 
-                @Override
-                public void onClick(View v) {
-                    for (Patrimonio patrimonio : leitor.getListaPatrimonio()) {
-                        Toast.makeText(getApplicationContext(), patrimonio.getTagRFID().toString(), Toast.LENGTH_LONG).show();
-                    }
+            mAdapterTag = new TagAdapter(getApplicationContext(), leitor.getListaPatrimonio());
 
-/*                    final String LABEL = ( (Button) v ).getText().toString();
-
-                    if (LABEL.equalsIgnoreCase("LER")) {
-                        leitor.leitura();
-                        leitor.setupOperationParameter();
-                        leitor.sendCmdInventory();
-                        btnTeste.setText("PARAR");
-                    }
-                    else {
-                        leitor.sendCmdStop();
-                        btnTeste.setText("LER");
-                    }*/
-
-                }
-            });
-            //endregion
+            lstPatrimonio.setAdapter(mAdapterTag);
         }
     }
 
 
-
+    //region EVENTOS DA TELA
     @Override
     public void onNotifyBtDataRecv() {
         if (leitor == null)
             return;
 
-        leitor.leitura();
+        try {
+            leitor.leitura();
+            //mHandler.sendEmptyMessage(MSG_REFRESH_LIST_TAG);
+        }
+        catch (Exception ex) {
+            Log.d("ERRO", ex.getMessage());
+        }
+
     }
 
     @Override
@@ -121,6 +129,7 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
 
         leitor.sendSettingTxCycle(TX_DUTY_ON[0], TX_DUTY_OFF[0]);
     }
+    //endregion
 
     //region MENSAGENS DO HANDLER
     private void setEnabledBtnDisconnect(boolean bEnable) {
@@ -150,48 +159,34 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
         leitor.finalize();
 
     }
-    //endregion
 
-    public static SelectMask getSelectMask()
-    {
+    public static SelectMask getSelectMask() {
         SelectMask selMask = new SelectMask();
 
-        if( Type == 0 )
-        {
+        if (Type == 0) {
             selMask.Bank = 1;//0;
             selMask.Offset = 16;//SelMask.Offset;
 
             final String pattern = selMask.Pattern = SelMask.TagId;
-            if( pattern != null )
-            {
+            if (pattern != null) {
                 final int LEN = pattern.length();
                 selMask.Bits = LEN * 4;
-            }
-            else
-            {
+            } else {
                 selMask.Bits = 0;
                 selMask.Pattern = null;
             }
-        }
-        else
-        {
-            if( SelMask.Bank == 4/*0*/ )
-            {
+        } else {
+            if (SelMask.Bank == 4/*0*/) {
                 selMask.Bits = 0;
-            }
-            else
-            {
+            } else {
                 selMask.Bank = SelMask.Bank;
                 selMask.Offset = SelMask.Offset;
 
                 final String pattern = selMask.Pattern = SelMask.Pattern;
-                if( pattern != null )
-                {
+                if (pattern != null) {
                     final int LEN = pattern.length();
                     selMask.Bits = LEN * 4;
-                }
-                else
-                {
+                } else {
                     selMask.Bits = 0;
                     selMask.Pattern = null;
                 }
@@ -199,6 +194,7 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
         }
         return selMask;
     }
+    //endregion
 
     //region Métodos não utilizados
     @Override

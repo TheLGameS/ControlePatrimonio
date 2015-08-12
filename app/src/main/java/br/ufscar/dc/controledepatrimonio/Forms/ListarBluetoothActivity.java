@@ -2,50 +2,50 @@ package br.ufscar.dc.controledepatrimonio.Forms;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-import java.util.ArrayList;
-import java.util.List;
-import br.ufscar.dc.controledepatrimonio.R;
-import br.ufscar.dc.controledepatrimonio.Util.RFID.Bluetooth;
-import br.ufscar.dc.controledepatrimonio.Util.RFID.BluetoothListener;
 
-public class ListarBluetoothActivity extends AppCompatActivity implements BluetoothListener {
-    private Bluetooth bluetooth = new Bluetooth(this);
-    private final static int REQUEST_ENABLE_BT = 1;
-    private List<BluetoothDevice> listaDispositivos = new ArrayList();
+import java.util.List;
+
+import br.ufscar.dc.controledepatrimonio.R;
+import br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900.OnBtEventListener;
+import br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900.R900;
+import br.ufscar.dc.controledepatrimonio.Util.RFID.ILeitor;
+import br.ufscar.dc.controledepatrimonio.Util.RFID.Leitor;
+
+public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEventListener {
+    private ListView lstBluetooth;
+    private R900 leitor;
+    private BluetoothListItem itemBluetooth;
+    private List<BluetoothDevice> listaDispositivo;
+    public final int MSG_CONECTOU = 1;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(final Message msg) {
+            switch (msg.what) {
+                case MSG_CONECTOU:
+                    //BOTAR PRO LEITOR APITAR
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listar_bluetooth);
 
-        //region Bluetooth
-        switch (bluetooth.verificarEstado()) {
-            case LIGADO:
-                bluetooth.iniciarBusca(this, this);
-
-                listaDispositivos = bluetooth.getListaDispostivo();
-                ListView lstBluetooth = (ListView) findViewById(R.id.lstBluetooth);
-                BluetoothAdapter itemBluetooth = new BluetoothAdapter(this, listaDispositivos);
-
-                lstBluetooth.setAdapter(itemBluetooth);
-                break;
-            case DESLIGADO:
-                Intent enableBtIntent = new Intent(bluetooth.getDispositivo().ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-                break;
-            case NAO_COMPATIVEL:
-                Toast.makeText(getApplicationContext(), R.string.msg_bluetooth_nao_suportado, Toast.LENGTH_SHORT).show();
-                break;
-        }
-        //endregion
+        iniciarTela();
 
         //region Botão Procurar
         Button btnProcurar = (Button) findViewById(R.id.btnProcurar_Bluetooth);
@@ -53,32 +53,82 @@ public class ListarBluetoothActivity extends AppCompatActivity implements Blueto
 
             @Override
             public void onClick(View arg0) {
-
+                leitor.buscarBluetooth();
+                listaDispositivo = leitor.getListaDispositivo();
+                itemBluetooth.notifyDataSetChanged();
             }
         });
         //endregion
+
+        lstBluetooth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+                leitor.pararBusca();
+
+                //setEnabledLinkCtrl(false);
+                leitor.setDispositivo(listaDispositivo.get(position));
+
+
+                Intent intent = new Intent(ListarBluetoothActivity.this, ListarEtiquetaActivity.class);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("addressDispositivo", leitor.getDispositivo().getAddress());
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+        });
+
     }
 
-    //region Bluetooth
-    @Override
-    public void action(String action) {
-        if (action.compareTo(ACTION_DISCOVERY_FINISHED) == 0) {
-            listaDispositivos = bluetooth.getListaDispostivo();
+    //region Métodos da tela
+    private void iniciarTela() {
+        leitor = new R900(this, mHandler, this);
+
+        lstBluetooth = (ListView) findViewById(R.id.lstBluetooth);
+        itemBluetooth = new BluetoothListItem(this, leitor.getListaDispositivo());
+        lstBluetooth.setAdapter(itemBluetooth);
+
+        switch (leitor.getEstado()) {
+            case LIGADO:
+                listaDispositivo = leitor.getListaDispositivo();
+                leitor.buscarBluetooth();
+                break;
+            case DESLIGADO:
+                Intent enableBtIntent = new Intent(Leitor.ACTION_REQUEST_ENABLE);
+                startActivityForResult(enableBtIntent, Leitor.REQUEST_ENABLE_BT);
+                break;
+            case NAO_COMPATIVEL:
+                Toast.makeText(getApplicationContext(), R.string.msg_bluetooth_nao_suportado, Toast.LENGTH_LONG).show();
+                break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-
-        if (requestCode == REQUEST_ENABLE_BT) {
+        if (requestCode == leitor.REQUEST_ENABLE_BT) {
             switch (resultCode) {
                 case RESULT_CANCELED:
                     //Não habilitou Bluetooth, então fecha a tela.
                     finish();
                     break;
+                case RESULT_OK:
+                    listaDispositivo = leitor.getListaDispositivo();
+                    leitor.buscarBluetooth();
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            leitor.pararBusca();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finish();
     }
     //endregion
 
@@ -103,6 +153,16 @@ public class ListarBluetoothActivity extends AppCompatActivity implements Blueto
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onNotifyBtDataRecv() {
+
+    }
+
+    @Override
+    public void onBtConnected(BluetoothDevice device) {
+
     }
     //endregion
 }

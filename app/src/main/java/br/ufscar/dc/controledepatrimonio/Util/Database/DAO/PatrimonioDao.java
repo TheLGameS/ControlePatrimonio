@@ -3,6 +3,7 @@ package br.ufscar.dc.controledepatrimonio.Util.Database.DAO;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,7 +18,8 @@ import br.ufscar.dc.controledepatrimonio.Entity.Responsavel;
 
 public class PatrimonioDao {
     private SQLiteDatabase db;
-    String[] colunas = new String[]{"_id", "dataEntrada", "descricao", "estado", "identificacao", "local", "nome", "responsavel"};
+    String[] colunas = new String[]{"_id", "descricao", "dataentrada", "identificacao", "estado",
+            "local", "responsavel", "tagrfid","enviarbancoonline"};
 
     public PatrimonioDao(SQLiteDatabase db) {
         this.db = db;
@@ -32,12 +34,7 @@ public class PatrimonioDao {
         val.put("estado", patrimonio.getEstado());
         val.put("identificacao", patrimonio.getIdentificacao());
         val.put("local", patrimonio.getLocal().getId());
-        val.put("nome", patrimonio.getNome());
         val.put("responsavel", patrimonio.getResponsavel().getId());
-
-        statusRegistro = patrimonio.getStatusRegistro() ? "0" : "1";
-
-        val.put("statusRegistro", statusRegistro);
 
         db.insert("Patrimonio", null, val);
     }
@@ -51,12 +48,7 @@ public class PatrimonioDao {
         val.put("estado", patrimonio.getEstado());
         val.put("identificacao", patrimonio.getIdentificacao());
         val.put("local", patrimonio.getLocal().getId());
-        val.put("nome", patrimonio.getNome());
         val.put("responsavel", patrimonio.getResponsavel().getId());
-
-        statusRegistro = patrimonio.getStatusRegistro() ? "0" : "1";
-
-        val.put("statusRegistro", statusRegistro);
 
         db.update("Patrimonio", val, "_id=" + patrimonio.getId(), null);
     }
@@ -76,37 +68,7 @@ public class PatrimonioDao {
             cursor.moveToFirst();
 
             do {
-                Patrimonio patrimonio = new Patrimonio();
-                Local local;
-                Responsavel responsavel;
-
-                patrimonio.setId(cursor.getInt(0));
-
-                DateFormat dataFormato = new SimpleDateFormat("dd/MM/yyyy");
-                try {
-                    if (cursor.getString(1) == null) {
-                        patrimonio.setDataEntrada(null);
-                    } else {
-                        Date data = dataFormato.parse(cursor.getString(1));
-                        patrimonio.setDataEntrada(data);
-                    }
-
-                } catch (ParseException ex) {
-                    ex.printStackTrace();
-                }
-
-                patrimonio.setDescricao(cursor.getString(2));
-                patrimonio.setEstado(cursor.getString(3));
-                patrimonio.setIdentificacao(cursor.getString(4));
-                local = localDao.buscarPorId(cursor.getInt(5));
-
-                patrimonio.setLocal(local);
-                patrimonio.setNome(cursor.getString(6));
-
-                responsavel = responsavelDao.buscarPorId(cursor.getInt(7));
-                patrimonio.setResponsavel(responsavel);
-
-                patrimonios.add(patrimonio);
+                patrimonios.add(iniciarPatrimonio(cursor));
             } while (cursor.moveToNext());
         }
 
@@ -114,24 +76,43 @@ public class PatrimonioDao {
     }
 
     public Patrimonio buscarPorId(int id) {
+        Cursor cursor = db.query("Patrimonio", colunas, "_id =" + id, null, null, null, null);
+
+        return iniciarPatrimonio(cursor);
+    }
+
+    public Patrimonio buscarPorTag(String tag) {
+        Cursor cursor;
+
+        try {
+            cursor = db.query("Patrimonio", colunas, "tagRFID =" + tag, null, null, null, null);
+        }
+        catch (Exception ex) {
+            Log.d("DB:", ex.getMessage());
+            return null;
+        }
+
+        return iniciarPatrimonio(cursor);
+    }
+
+    //region iniciarPatrimonio: DEFINE O CURSOR AO OBJETO PATRIMONIO
+    private Patrimonio iniciarPatrimonio(Cursor cursor) {
         Patrimonio patrimonio = new Patrimonio();
+        Local local;
+        Responsavel responsavel;
         LocalDao localDao = new LocalDao(db);
         ResponsavelDao responsavelDao = new ResponsavelDao(db);
 
-        Cursor cursor = db.query("Departamento", colunas, "_id =" + id, null, null, null, null);
-
         if (cursor.getCount() == 1) {
-            Local local;
-            Responsavel responsavel;
-
             patrimonio.setId(cursor.getInt(0));
+            patrimonio.setDescricao(cursor.getString(1));
 
             DateFormat dataFormato = new SimpleDateFormat("dd/MM/yyyy");
             try {
-                if (cursor.getString(1) == null) {
+                if (cursor.getString(2) == null) {
                     patrimonio.setDataEntrada(null);
                 } else {
-                    Date data = dataFormato.parse(cursor.getString(1));
+                    Date data = dataFormato.parse(cursor.getString(2));
                     patrimonio.setDataEntrada(data);
                 }
 
@@ -139,20 +120,23 @@ public class PatrimonioDao {
                 ex.printStackTrace();
             }
 
-            patrimonio.setDescricao(cursor.getString(2));
-            patrimonio.setEstado(cursor.getString(3));
-            patrimonio.setIdentificacao(cursor.getString(4));
+
+            patrimonio.setIdentificacao(cursor.getString(3));
+            patrimonio.setEstado(cursor.getString(4));
+
             local = localDao.buscarPorId(cursor.getInt(5));
 
             patrimonio.setLocal(local);
-            patrimonio.setNome(cursor.getString(6));
 
-            responsavel = responsavelDao.buscarPorId(cursor.getInt(7));
+            responsavel = responsavelDao.buscarPorId(cursor.getInt(6));
             patrimonio.setResponsavel(responsavel);
+            patrimonio.setTagRFID(cursor.getString(7));
+            patrimonio.setEnviarBancoOnline(true);
+
+            return patrimonio;
         } else {
             return null;
         }
-
-        return patrimonio;
     }
+    //endregion
 }

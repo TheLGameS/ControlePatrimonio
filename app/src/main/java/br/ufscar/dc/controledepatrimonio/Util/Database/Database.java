@@ -108,5 +108,9 @@ public class Database {
     public Patrimonio buscarPatrimonio(int id) {
         return new PatrimonioDao(db).buscarPorId(id);
     }
+
+    public Patrimonio buscarPatrimonioTag(String tag) {
+        return new PatrimonioDao(db).buscarPorTag(tag);
+    }
     //endregion
 }

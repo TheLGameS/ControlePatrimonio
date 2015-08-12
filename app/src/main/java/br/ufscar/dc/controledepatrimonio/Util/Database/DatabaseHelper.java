@@ -3,6 +3,7 @@ package br.ufscar.dc.controledepatrimonio.Util.Database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "patrimonio";
@@ -18,18 +19,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        StringBuilder sql;
-        sql = new StringBuilder();
-
-        //Departamento dentro da instituição
-        sql.append("CREATE TABLE Departamento" +
+        //region TABELA: Departamento
+        db.execSQL("CREATE TABLE Departamento" +
                 "(" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Sigla TEXT, " +
                 "Nome TEXT);");
+        //endregion
 
-        //Local dentro de um departamento que um patrimonio pode estar
-        sql.append("CREATE TABLE Local " +
+        //region TABELA: Local
+        db.execSQL("CREATE TABLE Local " +
                 "(" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Departamento INTEGER," +
@@ -37,17 +36,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Descricao TEXT, " +
                 "FOREIGN KEY (departamento) REFERENCES Departamento(_id)" +
                 ");");
+        //endregion
 
-        //Responsável pelo patriminio
-        sql.append("CREATE TABLE Responsavel (" +
-                "_id INTERGER PRIMARY KEY AUTOINCREMENT, " +
+        //region TABELA: Responsável
+        db.execSQL("CREATE TABLE Responsavel (" +
+                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "Siape TEXT, " +
                 "Nome TEXT, " +
                 "Telefone TEXT, " +
                 "Funcao TEXT);");
+        //endregion
 
-        //Dados do patrimonio
-        sql.append("CREATE TABLE Patrimonio" +
+        //region TABELA: Patrimonio
+        db.execSQL("CREATE TABLE Patrimonio" +
                 "(" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Descricao TEXT," +
@@ -55,23 +56,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Estado TEXT, DataEntrada TEXT," +
                 "Local INTEGER," +
                 "Responsavel INTEGER," +
-                "Ativo INTEGER, " +
+                "TagRFID TEXT," +
+                "enviarBancoOnline TEXT," +
                 "FOREIGN KEY (Local) REFERENCES Local(_id)," +
                 "FOREIGN KEY (Responsavel) REFERENCES Responsavel(_id)" +
                 ");");
-
-        db.execSQL(sql.toString());
+        //endregion
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         StringBuilder sql;
         sql = new StringBuilder();
-
-        sql.append("DROP TABLE Patrimonio;" +
-                "DROP TABLE Responsavel;" +
-                "DROP TABLE Local;" +
-                "DROP TABLE Departamento;");
 
         db.execSQL(sql.toString());
         onCreate(db);

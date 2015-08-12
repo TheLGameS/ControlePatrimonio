@@ -8,22 +8,14 @@ import br.ufscar.dc.controledepatrimonio.Entity.Responsavel;
 
 public class Patrimonio {
     private int id;
-    private String nome;
     private String descricao;
     private String identificacao;
     private String estado;
     private Date dataEntrada;
     private Local local;
     private Responsavel responsavel;
-    private Boolean statusRegistro;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    private String TagRFID;
+    private boolean enviarBancoOnline;
 
     public String getDescricao() {
         return descricao;
@@ -73,19 +65,27 @@ public class Patrimonio {
         this.responsavel = responsavel;
     }
 
-    public Boolean getStatusRegistro() {
-        return statusRegistro;
-    }
-
-    public void setStatusRegistro(Boolean statusRegistro) {
-        this.statusRegistro = statusRegistro;
-    }
-
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getTagRFID() {
+        return TagRFID;
+    }
+
+    public void setTagRFID(String tagRFID) {
+        TagRFID = tagRFID;
+    }
+
+    public boolean isEnviarBancoOnline() {
+        return enviarBancoOnline;
+    }
+
+    public void setEnviarBancoOnline(boolean enviarBancoOnline) {
+        this.enviarBancoOnline = enviarBancoOnline;
     }
 }

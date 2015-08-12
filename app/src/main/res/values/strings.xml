@@ -19,5 +19,8 @@
     <string name="title_activity_lista_dispositivo_bluetooth">ListaDispositivoBluetooth</string>
     <string name="title_activity_listar_bluetooth">ListarBluetoothActivity</string>
     <string name="btnProcurar_Bluetooth">Procurar</string>
+    <string name="btnLer_Tag">LER</string>
+    <string name="title_activity_cad_responsavel">CadResponsavelActivity</string>
+    <string name="title_activity_listar_etiqueta">ListarEtiqueta</string>
 
 </resources>

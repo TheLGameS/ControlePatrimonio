@@ -12,12 +12,12 @@ import java.util.List;
 
 import br.ufscar.dc.controledepatrimonio.R;
 
-public class BluetoothAdapter extends BaseAdapter {
+public class BluetoothListItem extends BaseAdapter {
     private List<BluetoothDevice> dispostivos;
     private LayoutInflater inflater;
     private Context ctx;
 
-    public BluetoothAdapter(Context ctx, List<BluetoothDevice> dispositivos) {
+    public BluetoothListItem(Context ctx, List<BluetoothDevice> dispositivos) {
         this.dispostivos = dispositivos;
         this.ctx = ctx;
         inflater = LayoutInflater.from(ctx);

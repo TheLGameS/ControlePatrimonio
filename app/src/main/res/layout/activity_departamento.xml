@@ -10,10 +10,10 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btnActivity_Cadastrar_Departamento"
+        android:id="@+id/btnObterJson"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btnActivity_Cadastrar_Departamento"/>
+        android:text="OBTER"/>
 
     <Button
         android:id="@+id/btnActivity_Listar_Departamento"

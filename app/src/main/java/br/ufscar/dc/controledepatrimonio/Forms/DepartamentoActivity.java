@@ -1,32 +1,41 @@
 package br.ufscar.dc.controledepatrimonio.Forms;
 
 import android.content.Intent;
+import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.nio.charset.MalformedInputException;
+import java.util.List;
+
+import br.ufscar.dc.controledepatrimonio.Entity.Local;
 import br.ufscar.dc.controledepatrimonio.R;
+import br.ufscar.dc.controledepatrimonio.Util.Database.Database;
+import br.ufscar.dc.controledepatrimonio.Util.Webservice.ITask;
+import br.ufscar.dc.controledepatrimonio.Util.Webservice.LocalTask;
+import br.ufscar.dc.controledepatrimonio.Util.Webservice.Webservice;
 
-public class DepartamentoActivity extends AppCompatActivity {
+public class DepartamentoActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_departamento);
 
-        Button btnCadastrar_Departamento = (Button) findViewById(R.id.btnActivity_Cadastrar_Departamento);
+        Button btnObter = (Button) findViewById(R.id.btnObterJson);
 
-        btnCadastrar_Departamento.setOnClickListener(new View.OnClickListener() {
+        btnObter.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new
-                        Intent(DepartamentoActivity.this, CadDepartamentoActivity.class);
-                startActivity(intent);
-                finish();
+                LocalTask localTask = new LocalTask(DepartamentoActivity.this);
+                localTask.execute();
             }
         });
 
@@ -63,4 +72,5 @@ public class DepartamentoActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

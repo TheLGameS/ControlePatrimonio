@@ -28,7 +28,8 @@ public class Main extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-
+                Intent intent = new Intent(Main.this, DepartamentoActivity.class);
+                startActivity(intent);
             }
         });
         //endregion

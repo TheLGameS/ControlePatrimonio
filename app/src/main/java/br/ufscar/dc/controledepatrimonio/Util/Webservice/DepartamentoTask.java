@@ -9,39 +9,39 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-import br.ufscar.dc.controledepatrimonio.Entity.Local;
+import br.ufscar.dc.controledepatrimonio.Entity.Departamento;
 import br.ufscar.dc.controledepatrimonio.Util.Database.Database;
 
-public class LocalTask extends AsyncTask<Void, Void, String> {
+public class DepartamentoTask extends AsyncTask<Void, Void, String> {
     private Context ctx;
     private String retorno = null;
 
-    public LocalTask(Context ctx) {
+    public DepartamentoTask(Context ctx) {
         this.ctx = ctx;
     }
 
     @Override
     protected String doInBackground(Void... params) {
-        Webservice webservice = new Webservice("local/index.json");
+
+        Webservice webservice = new Webservice("departamento/index.json");
         String retorno = webservice.getJSON();
         return retorno;
     }
-
 
     @Override
     protected void onPostExecute(String json) {
         Database db = new Database(ctx);
         Gson gson = new Gson();
 
-        TypeToken<List<Local>> token = new TypeToken<List<Local>>() {
+        TypeToken<List<Departamento>> token = new TypeToken<List<Departamento>>() {
         };
-        List<Local> listaLocal = gson.fromJson(json, token.getType());
+        List<Departamento> listaDepartamento = gson.fromJson(json, token.getType());
 
-        if (listaLocal.size() > 0 )
-            db.deletarTodosLocais();
+        if (listaDepartamento.size() > 0)
+                db.deletarTodosDepartamentos();
 
-        for (Local local : listaLocal) {
-            db.inserirLocal(local);
+        for (Departamento departamento : listaDepartamento) {
+            db.inserirDepartamento(departamento);
         }
     }
 

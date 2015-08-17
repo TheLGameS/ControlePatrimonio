@@ -55,7 +55,7 @@ public class TagAdapter extends BaseAdapter {
             TextView lblLocalizacao = (TextView) layout.findViewById(R.id.lblLocalizacao);
 
             if (patrimonio.getDescricao() == null) {
-                lblPatrimonio.setText(patrimonio.getTagRFID());
+                lblPatrimonio.setText(patrimonio.getIdentificacao());
                 lblLocalizacao.setText("");
             } else {
                 lblPatrimonio.setText(patrimonio.getDescricao());

@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //region TABELA: Local
         db.execSQL("CREATE TABLE Local " +
                 "(" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "_id INTEGER, " +
                 "Departamento INTEGER," +
                 "Nome TEXT," +
                 "Descricao TEXT, " +

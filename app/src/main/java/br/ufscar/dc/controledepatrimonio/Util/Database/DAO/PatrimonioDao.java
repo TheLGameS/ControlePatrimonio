@@ -19,7 +19,7 @@ import br.ufscar.dc.controledepatrimonio.Entity.Responsavel;
 public class PatrimonioDao {
     private SQLiteDatabase db;
     String[] colunas = new String[]{"_id", "descricao", "dataentrada", "identificacao", "estado",
-            "local", "responsavel", "tagrfid","enviarbancoonline"};
+            "local", "responsavel","enviarbancoonline"};
 
     public PatrimonioDao(SQLiteDatabase db) {
         this.db = db;
@@ -29,12 +29,14 @@ public class PatrimonioDao {
         String statusRegistro;
         ContentValues val = new ContentValues();
 
+        val.put("_id", patrimonio.getId());
         val.put("dataEntrada", String.valueOf(patrimonio.getDataEntrada()));
         val.put("descricao", patrimonio.getDescricao());
         val.put("estado", patrimonio.getEstado());
         val.put("identificacao", patrimonio.getIdentificacao());
         val.put("local", patrimonio.getLocal().getId());
         val.put("responsavel", patrimonio.getResponsavel().getId());
+        val.put("enviarBancoOnline",patrimonio.isEnviarBancoOnline() ? 1 : 0);
 
         db.insert("Patrimonio", null, val);
     }
@@ -43,12 +45,14 @@ public class PatrimonioDao {
         String statusRegistro;
         ContentValues val = new ContentValues();
 
+        val.put("_id", patrimonio.getId());
         val.put("dataEntrada", String.valueOf(patrimonio.getDataEntrada()));
         val.put("descricao", patrimonio.getDescricao());
         val.put("estado", patrimonio.getEstado());
         val.put("identificacao", patrimonio.getIdentificacao());
         val.put("local", patrimonio.getLocal().getId());
         val.put("responsavel", patrimonio.getResponsavel().getId());
+        val.put("enviarBancoOnline",patrimonio.isEnviarBancoOnline() ? 1 : 0);
 
         db.update("Patrimonio", val, "_id=" + patrimonio.getId(), null);
     }
@@ -85,7 +89,7 @@ public class PatrimonioDao {
         Cursor cursor;
 
         try {
-            cursor = db.query("Patrimonio", colunas, "tagRFID =" + tag, null, null, null, null);
+            cursor = db.query("Patrimonio", colunas, "identificacao ='" + tag + "'", null, null, null, null);
         }
         catch (Exception ex) {
             Log.d("DB:", ex.getMessage());
@@ -104,19 +108,21 @@ public class PatrimonioDao {
         ResponsavelDao responsavelDao = new ResponsavelDao(db);
 
         if (cursor.getCount() == 1) {
+            cursor.moveToFirst();
+
             patrimonio.setId(cursor.getInt(0));
             patrimonio.setDescricao(cursor.getString(1));
 
-            DateFormat dataFormato = new SimpleDateFormat("dd/MM/yyyy");
+            DateFormat dataFormato = new SimpleDateFormat("dd-MM-yyyy");
             try {
                 if (cursor.getString(2) == null) {
                     patrimonio.setDataEntrada(null);
                 } else {
-                    Date data = dataFormato.parse(cursor.getString(2));
-                    patrimonio.setDataEntrada(data);
+                    //Date data = dataFormato.parse(cursor.getString(2));
+                    //patrimonio.setDataEntrada(data);
                 }
 
-            } catch (ParseException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
 
@@ -130,7 +136,7 @@ public class PatrimonioDao {
 
             responsavel = responsavelDao.buscarPorId(cursor.getInt(6));
             patrimonio.setResponsavel(responsavel);
-            patrimonio.setTagRFID(cursor.getString(7));
+            //patrimonio.setTagRFID(cursor.getString(7));
             patrimonio.setEnviarBancoOnline(true);
 
             return patrimonio;
@@ -139,4 +145,9 @@ public class PatrimonioDao {
         }
     }
     //endregion
+
+    //DELETA TODOS QUE JÁ ESTÃO NA BASE ONLINE
+    public void deletarTodos() {
+        db.delete("patrimonio", "enviarBancoOnline=0", null);
+    }
 }

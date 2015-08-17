@@ -42,6 +42,10 @@ public class Database {
     public Departamento buscarDepartamento(int id) {
         return new DepartamentoDao(db).buscarPorId(id);
     }
+
+    public void deletarTodosDepartamentos() {
+        new DepartamentoDao(db).deletarTodos();
+    }
     //endregion
 
     //region Local
@@ -64,6 +68,10 @@ public class Database {
     public Local buscarLocal(int id) {
         return new LocalDao(db).buscarPorId(id);
     }
+
+    public void deletarTodosLocais() {
+        new LocalDao(db).deletarTodos();
+    }
     //endregion
 
     //region Responsavel
@@ -85,6 +93,10 @@ public class Database {
 
     public Responsavel buscarResponsavel(int id) {
         return new ResponsavelDao(db).buscarPorId(id);
+    }
+
+    public void deletarTodosResponsaveis() {
+        new ResponsavelDao(db).deletarTodos();
     }
     //endregion
 
@@ -111,6 +123,10 @@ public class Database {
 
     public Patrimonio buscarPatrimonioTag(String tag) {
         return new PatrimonioDao(db).buscarPorTag(tag);
+    }
+
+    public void deletarTodosPatrimonios() {
+        new PatrimonioDao(db).deletarTodos();
     }
     //endregion
 }

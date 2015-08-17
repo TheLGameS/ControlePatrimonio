@@ -19,6 +19,7 @@ public class LocalDao {
 
     public void inserir(Local local) {
         ContentValues val = new ContentValues();
+        val.put("_id", local.getId());
         val.put("nome", local.getNome());
         val.put("descricao", local.getDescricao());
         val.put("departamento", local.getDepartamento().getId());
@@ -76,6 +77,8 @@ public class LocalDao {
         Cursor cursor = db.query("Local",colunas,"_id ="+id, null,null,null,null);
 
         if (cursor.getCount() == 1) {
+            cursor.moveToFirst();
+
             local.setId(cursor.getInt(0));
             local.setNome(cursor.getString(1));
             local.setDescricao(cursor.getString(2));
@@ -87,5 +90,9 @@ public class LocalDao {
         }
 
         return local;
+    }
+
+    public void deletarTodos() {
+        db.delete("local", "", null);
     }
 }

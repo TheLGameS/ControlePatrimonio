@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.ufscar.dc.controledepatrimonio">
+    package="br.ufscar.dc.controledepatrimonio" >
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -11,10 +11,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".Forms.Main"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,16 +32,20 @@
             android:label="@string/title_activity_listar_departamento" />
         <activity
             android:name=".Forms.ListarBluetoothActivity"
-            android:label="@string/title_activity_listar_bluetooth"></activity>
+            android:label="@string/title_activity_listar_bluetooth" />
         <activity
             android:name=".Forms.CadResponsavelActivity"
-            android:label="@string/title_activity_cad_responsavel"></activity>
+            android:label="@string/title_activity_cad_responsavel" />
         <activity
             android:name=".Forms.ListarEtiquetaActivity"
-            android:label="@string/title_activity_listar_etiqueta"></activity>
+            android:label="@string/title_activity_listar_etiqueta" />
 
         <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
 
+        <activity
+            android:name=".Forms.CadPatrimonioActivity"
+            android:label="@string/title_activity_cad_patrimonio" >
+        </activity>
     </application>
 
 </manifest>

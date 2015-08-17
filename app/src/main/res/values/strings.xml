@@ -9,6 +9,7 @@
     <string name="lblDepartamento_Sigla">Sigla</string>
     <string name="btnGravar">Gravar</string>
     <string name="action_settings">Settings</string>
+    <string name="mnuCarregar">Carregar dados</string>
     <string name="btnListar_Departamento">Listar</string>
     <string name="title_activity_listar_departamento">ListarDepartamentoActivity</string>
     <string name="btnEditar">Editar</string>
@@ -24,5 +25,12 @@
     <string name="title_activity_listar_etiqueta">ListarEtiqueta</string>
     <string name="title_activity_etiqueta_adapter">EtiquetaAdapter</string>
     <string name="lblTotalTags">Lido:</string>
-
+    <string name="title_activity_cad_patrimonio">CadPatrimonioActivity</string>
+    <string name="lblDescricaoPatrimonio">Descrição</string>
+    <string name="lblIdentificacaoPatrimonio">Identificação</string>
+    <string name="lblEstadoPatrimonio">Estado</string>
+    <string name="lblLocalPatrimonio">Local</string>
+    <string name="lblResponsavelPatrimonio">Responsável</string>
+    <string name="hintIdentificacaoPatrimonio">Informe o valor da etiqueta RFID</string>
+    <string name="hintEstadoPatrimonio">Informe o estado/situção do objeto</string>
 </resources>

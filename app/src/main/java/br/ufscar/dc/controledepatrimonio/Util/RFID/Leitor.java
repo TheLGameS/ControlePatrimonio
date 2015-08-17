@@ -354,10 +354,12 @@ public class Leitor {
         final String tagRFId = param.substring(0, param.length() - 4);
 
         patrimonio = db.buscarPatrimonioTag(tagRFId);
-        if (patrimonio == null)
+        if (patrimonio == null) {
             patrimonio = new Patrimonio();
 
-        patrimonio.setTagRFID(tagRFId);
+            patrimonio.setIdentificacao(tagRFId);
+            patrimonio.setEnviarBancoOnline(false);
+        }
 
         if (!listaPatrimonio.contains(patrimonio))
             listaPatrimonio.add(patrimonio);

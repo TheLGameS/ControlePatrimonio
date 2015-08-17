@@ -18,6 +18,7 @@ public class ResponsavelDao {
 
     public void inserir(Responsavel responsavel) {
         ContentValues val = new ContentValues();
+        val.put("_id", responsavel.getId());
         val.put("nome", responsavel.getNome());
         val.put("funcao", responsavel.getFuncao());
         val.put("siape", responsavel.getSiape());
@@ -28,6 +29,7 @@ public class ResponsavelDao {
 
     public void atualizar(Responsavel responsavel) {
         ContentValues val = new ContentValues();
+        val.put("_id", responsavel.getId());
         val.put("nome", responsavel.getNome());
         val.put("funcao", responsavel.getFuncao());
         val.put("siape", responsavel.getSiape());
@@ -72,6 +74,8 @@ public class ResponsavelDao {
         Cursor cursor = db.query("Responsavel",colunas,"_id ="+id, null,null,null,null);
 
         if (cursor.getCount() == 1) {
+            cursor.moveToFirst();
+
             responsavel.setId(cursor.getInt(0));
             responsavel.setNome(cursor.getString(1));
             responsavel.setFuncao(cursor.getString(2));
@@ -83,5 +87,9 @@ public class ResponsavelDao {
         }
 
         return responsavel;
+    }
+
+    public void deletarTodos() {
+        db.delete("responsavel", "", null);
     }
 }

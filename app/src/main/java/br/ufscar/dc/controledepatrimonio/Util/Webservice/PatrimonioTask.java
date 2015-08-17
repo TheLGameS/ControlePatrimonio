@@ -1,6 +1,5 @@
 package br.ufscar.dc.controledepatrimonio.Util.Webservice;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -9,39 +8,40 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-import br.ufscar.dc.controledepatrimonio.Entity.Local;
+import br.ufscar.dc.controledepatrimonio.Entity.Patrimonio;
 import br.ufscar.dc.controledepatrimonio.Util.Database.Database;
 
-public class LocalTask extends AsyncTask<Void, Void, String> {
+public class PatrimonioTask extends AsyncTask<Void, Void, String> {
     private Context ctx;
     private String retorno = null;
 
-    public LocalTask(Context ctx) {
+    public PatrimonioTask(Context ctx) {
         this.ctx = ctx;
     }
 
     @Override
     protected String doInBackground(Void... params) {
-        Webservice webservice = new Webservice("local/index.json");
+        Webservice webservice = new Webservice("patrimonio/index.json");
         String retorno = webservice.getJSON();
         return retorno;
     }
-
 
     @Override
     protected void onPostExecute(String json) {
         Database db = new Database(ctx);
         Gson gson = new Gson();
 
-        TypeToken<List<Local>> token = new TypeToken<List<Local>>() {
+        TypeToken<List<Patrimonio>> token = new TypeToken<List<Patrimonio>>() {
         };
-        List<Local> listaLocal = gson.fromJson(json, token.getType());
+        List<Patrimonio> listaPatrimonio = gson.fromJson(json, token.getType());
 
-        if (listaLocal.size() > 0 )
-            db.deletarTodosLocais();
+        if (listaPatrimonio.size() > 0)
+            db.deletarTodosPatrimonios();
 
-        for (Local local : listaLocal) {
-            db.inserirLocal(local);
+
+        for (Patrimonio patrimonio : listaPatrimonio) {
+            patrimonio.setEnviarBancoOnline(false);
+            db.inserirPatrimonio(patrimonio);
         }
     }
 

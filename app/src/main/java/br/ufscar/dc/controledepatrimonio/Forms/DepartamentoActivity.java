@@ -1,5 +1,6 @@
 package br.ufscar.dc.controledepatrimonio.Forms;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -8,34 +9,36 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import java.io.IOException;
-import java.nio.charset.MalformedInputException;
-import java.util.List;
-
-import br.ufscar.dc.controledepatrimonio.Entity.Local;
 import br.ufscar.dc.controledepatrimonio.R;
-import br.ufscar.dc.controledepatrimonio.Util.Database.Database;
-import br.ufscar.dc.controledepatrimonio.Util.Webservice.ITask;
+import br.ufscar.dc.controledepatrimonio.Util.Webservice.DepartamentoTask;
 import br.ufscar.dc.controledepatrimonio.Util.Webservice.LocalTask;
-import br.ufscar.dc.controledepatrimonio.Util.Webservice.Webservice;
+import br.ufscar.dc.controledepatrimonio.Util.Webservice.PatrimonioTask;
+import br.ufscar.dc.controledepatrimonio.Util.Webservice.ResponsavelTask;
 
 public class DepartamentoActivity extends AppCompatActivity{
-
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_departamento);
 
         Button btnObter = (Button) findViewById(R.id.btnObterJson);
+        progressDialog = new ProgressDialog(DepartamentoActivity.this);
+
 
         btnObter.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
+                DepartamentoTask departamentoTask = new DepartamentoTask(DepartamentoActivity.this);
+                departamentoTask.execute();
+
                 LocalTask localTask = new LocalTask(DepartamentoActivity.this);
                 localTask.execute();
+
+
+                PatrimonioTask patrimonioTask = new PatrimonioTask(DepartamentoActivity.this);
+                patrimonioTask.execute();
             }
         });
 
@@ -43,8 +46,7 @@ public class DepartamentoActivity extends AppCompatActivity{
         btnListar_Departamento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent intent = new
-                        Intent(DepartamentoActivity.this, ListarDepartamentoActivity.class);
+                Intent intent = new Intent(DepartamentoActivity.this, ListarDepartamentoActivity.class);
                 startActivity(intent);
                 finish();
             }

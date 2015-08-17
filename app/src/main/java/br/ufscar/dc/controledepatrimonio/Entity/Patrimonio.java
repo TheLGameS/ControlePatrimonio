@@ -14,7 +14,7 @@ public class Patrimonio {
     private Date dataEntrada;
     private Local local;
     private Responsavel responsavel;
-    private String TagRFID;
+    //private String TagRFID;
     private boolean enviarBancoOnline;
 
     public String getDescricao() {
@@ -73,14 +73,6 @@ public class Patrimonio {
         this.id = id;
     }
 
-    public String getTagRFID() {
-        return TagRFID;
-    }
-
-    public void setTagRFID(String tagRFID) {
-        TagRFID = tagRFID;
-    }
-
     public boolean isEnviarBancoOnline() {
         return enviarBancoOnline;
     }
@@ -96,12 +88,12 @@ public class Patrimonio {
 
         Patrimonio that = (Patrimonio) o;
 
-        return TagRFID.equals(that.TagRFID);
+        return !(identificacao != null ? !identificacao.equals(that.identificacao) : that.identificacao != null);
 
     }
 
     @Override
     public int hashCode() {
-        return TagRFID.hashCode();
+        return identificacao != null ? identificacao.hashCode() : 0;
     }
 }

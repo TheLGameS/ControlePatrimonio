@@ -26,13 +26,14 @@ public class Webservice {
     private URL urlJSOn;
     private String url;
     private HttpURLConnection con = null;
+    private final String URL_GRAILS = "http://192.168.0.10:8080/Patrimonio/";
     private final String URL_AUTENTICAR = "http://192.168.0.10:8080/Patrimonio/j_spring_security_check";
     private final String USER_AGENT = "Mozilla/5.0";
     private List<String> cookies;
     private HttpURLConnection conn;
 
     public Webservice(String url) {
-        this.url = url;
+        this.url = URL_GRAILS + url;
         autenticar();
     }
 
@@ -99,12 +100,12 @@ public class Webservice {
 
         conn.setUseCaches(false);
         conn.setRequestMethod("POST");
-        conn.setRequestProperty("Host", "accounts.google.com");
+        conn.setRequestProperty("Host", "192.168.0.10:8080");
         conn.setRequestProperty("User-Agent", USER_AGENT);
         conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
         conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
         conn.setRequestProperty("Connection", "keep-alive");
-        conn.setRequestProperty("Referer", "https://accounts.google.com/ServiceLoginAuth");
+        conn.setRequestProperty("Referer", URL_AUTENTICAR);
         conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
         conn.setRequestProperty("Content-Length", Integer.toString(postParams.length()));
 

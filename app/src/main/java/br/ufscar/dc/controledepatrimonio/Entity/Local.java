@@ -5,6 +5,7 @@ public class Local {
     private String nome;
     private String descricao;
     private Departamento departamento;
+    private int idExterno;
 
     public String getNome() {
         return nome;
@@ -36,5 +37,18 @@ public class Local {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return descricao;
+    }
+
+    public int getIdExterno() {
+        return idExterno;
+    }
+
+    public void setIdExterno(int idExterno) {
+        this.idExterno = idExterno;
     }
 }

@@ -10,7 +10,7 @@
     <string name="btnGravar">Gravar</string>
     <string name="action_settings">Settings</string>
     <string name="mnuCarregar">Carregar dados</string>
-    <string name="btnListar_Departamento">Listar</string>
+    <string name="btnListar">Listar</string>
     <string name="title_activity_listar_departamento">ListarDepartamentoActivity</string>
     <string name="btnEditar">Editar</string>
     <string name="btnExcluir">Excluir</string>
@@ -33,4 +33,9 @@
     <string name="lblResponsavelPatrimonio">Responsável</string>
     <string name="hintIdentificacaoPatrimonio">Informe o valor da etiqueta RFID</string>
     <string name="hintEstadoPatrimonio">Informe o estado/situção do objeto</string>
+    <string name="title_activity_listar_patrimonio">ListarPatrimonioActivity</string>
+    <string name="title_activity_patrimonio_adapter">PatrimonioAdapter</string>
+    <string name="title_activity_patrimonio">PatrimonioActivity</string>
+    <string name="btnAlterar">Alterar</string>
+    <string name="btnCancelar">Cancelar</string>
 </resources>

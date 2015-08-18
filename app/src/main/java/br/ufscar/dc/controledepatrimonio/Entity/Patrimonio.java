@@ -1,12 +1,13 @@
 package br.ufscar.dc.controledepatrimonio.Entity;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
 import br.ufscar.dc.controledepatrimonio.Entity.Local;
 import br.ufscar.dc.controledepatrimonio.Entity.Responsavel;
 
-public class Patrimonio {
+public class Patrimonio implements Serializable {
     private int id;
     private String descricao;
     private String identificacao;

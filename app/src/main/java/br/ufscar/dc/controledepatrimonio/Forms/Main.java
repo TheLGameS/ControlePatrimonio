@@ -29,7 +29,7 @@ public class Main extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent intent = new Intent(Main.this, CadPatrimonioActivity.class);
+                Intent intent = new Intent(Main.this, PatrimonioActivity.class);
                 startActivity(intent);
             }
         });

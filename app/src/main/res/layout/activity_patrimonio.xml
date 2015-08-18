@@ -6,19 +6,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.ufscar.dc.controledepatrimonio.Forms.DepartamentoActivity"
+    tools:context="br.ufscar.dc.controledepatrimonio.Forms.PatrimonioActivity"
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btnObterJson"
+        android:id="@+id/btnGravarPatrimonio"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="OBTER"/>
+        android:text="@string/btnGravar"/>
 
     <Button
-        android:id="@+id/btnActivity_Listar_Departamento"
+        android:id="@+id/btnListarPatrimonio"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btnListar"/>
-
 </LinearLayout>

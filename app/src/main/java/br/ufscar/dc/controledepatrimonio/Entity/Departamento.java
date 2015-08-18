@@ -1,6 +1,8 @@
 package br.ufscar.dc.controledepatrimonio.Entity;
 
-public class Departamento {
+import java.io.Serializable;
+
+public class Departamento implements Serializable{
     private int id;
     private String sigla;
     private String nome;

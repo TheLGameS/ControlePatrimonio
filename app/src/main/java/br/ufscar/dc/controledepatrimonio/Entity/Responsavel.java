@@ -1,6 +1,8 @@
 package br.ufscar.dc.controledepatrimonio.Entity;
 
-public class Responsavel {
+import java.io.Serializable;
+
+public class Responsavel  implements Serializable {
     private int id;
     private String siape;
     private String nome;

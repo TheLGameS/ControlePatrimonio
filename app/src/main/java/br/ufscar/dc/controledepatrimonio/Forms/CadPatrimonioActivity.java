@@ -37,8 +37,8 @@ public class CadPatrimonioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cad_patrimonio);
 
-        List<Local> listaLocal = new ArrayList<>();
-        List<Responsavel> listaResponsavel = new ArrayList<>();
+        List<Local> listaLocal;
+        List<Responsavel> listaResponsavel;
 
         listaLocal = db.buscarLocais();
         listaResponsavel = db.buscarResponsaveis();
@@ -58,12 +58,23 @@ public class CadPatrimonioActivity extends AppCompatActivity {
 
         cboResponsavel.setAdapter(adapterResponsavel);
 
+        if (getIntent().hasExtra("patrimonio")) {
+            patrimonio = (Patrimonio) getIntent().getExtras().getSerializable("patrimonio");
+
+            txtDescricao.setText(patrimonio.getDescricao());
+            txtIdentificacao.setText(patrimonio.getIdentificacao());
+            txtEstado.setText(patrimonio.getEstado());
+
+            cboLocal.setId(patrimonio.getLocal().getId());
+            cboResponsavel.setId(patrimonio.getResponsavel().getId());
+        }
+
         final Button btnGravar = (Button) findViewById(R.id.btnGravarPatrimonio);
         btnGravar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                patrimonio = new Patrimonio();
+                if (patrimonio.getId() == 0)
+                    patrimonio = new Patrimonio();
                 Date d = new Date();
 
                 patrimonio.setEnviarBancoOnline(true);
@@ -80,7 +91,10 @@ public class CadPatrimonioActivity extends AppCompatActivity {
 
                 patrimonio.setResponsavel(responsavel);
 
-                db.inserirPatrimonio(patrimonio);
+                if (patrimonio.getId() == 0)
+                    db.inserirPatrimonio(patrimonio);
+                else
+                    db.atualizarPatrimonio(patrimonio);
 
             }
         });

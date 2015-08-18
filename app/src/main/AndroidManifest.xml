@@ -46,6 +46,14 @@
             android:name=".Forms.CadPatrimonioActivity"
             android:label="@string/title_activity_cad_patrimonio" >
         </activity>
+        <activity
+            android:name=".Forms.ListarPatrimonioActivity"
+            android:label="@string/title_activity_listar_patrimonio" >
+        </activity>
+        <activity
+            android:name=".Forms.PatrimonioActivity"
+            android:label="@string/title_activity_patrimonio" >
+        </activity>
     </application>
 
 </manifest>

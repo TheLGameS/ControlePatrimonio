@@ -19,7 +19,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_lista_dispositivo_bluetooth">ListaDispositivoBluetooth</string>
     <string name="title_activity_listar_bluetooth">ListarBluetoothActivity</string>
-    <string name="btnProcurar_Bluetooth">Procurar</string>
+    <string name="btnProcurar_Bluetooth">Procurar Dispositivos</string>
     <string name="btnLer_Tag">LER</string>
     <string name="title_activity_cad_responsavel">CadResponsavelActivity</string>
     <string name="title_activity_listar_etiqueta">ListarEtiqueta</string>
@@ -38,4 +38,12 @@
     <string name="title_activity_patrimonio">PatrimonioActivity</string>
     <string name="btnAlterar">Alterar</string>
     <string name="btnCancelar">Cancelar</string>
+    <string name="mnuEnviar">Enviar dados</string>
+    <string name="lblNomePatrimonio">Nome</string>
+    <string name="lblStatusPatrimonio">Ativo</string>
+    <string name="btnIniciar_Leitor">Iniciar leitor</string>
+    <string name="msgCarga">Deseja realizar a carga de dados?</string>
+    <string name="opSIM">Sim</string>
+    <string name="opNAO">Não</string>
+    <string name="msgEnviarCarga">Deseja realizar o envio de dados?</string>
 </resources>

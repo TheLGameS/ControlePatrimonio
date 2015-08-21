@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,13 +14,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.util.List;
-
 import br.ufscar.dc.controledepatrimonio.R;
 import br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900.OnBtEventListener;
 import br.ufscar.dc.controledepatrimonio.Util.RFID.DotR900.R900;
-import br.ufscar.dc.controledepatrimonio.Util.RFID.ILeitor;
 import br.ufscar.dc.controledepatrimonio.Util.RFID.Leitor;
 
 public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEventListener {
@@ -28,6 +26,7 @@ public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEv
     private BluetoothListItem itemBluetooth;
     private List<BluetoothDevice> listaDispositivo;
     public final int MSG_ENCONTROU_BLUETOOTH = 1;
+    private Toolbar mToolbar;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -59,6 +58,7 @@ public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEv
         });
         //endregion
 
+        //region ListView
         lstBluetooth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
@@ -78,7 +78,20 @@ public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEv
                 startActivity(intent);
             }
         });
+        //endregion
 
+        //region Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.ToolbarTop);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mToolbar.findViewById(R.id.btnVoltar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //endregion
     }
 
     //region Métodos da tela
@@ -119,14 +132,19 @@ public class ListarBluetoothActivity extends AppCompatActivity implements OnBtEv
         }
     }
 
+    public void onDestroy() {
+        super.onDestroy();
 
+        leitor.finalize();
+
+    }
     //endregion
 
     //region Métodos não utilizados
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_listar_bluetooth, menu);
+        //getMenuInflater().inflate(R.menu.menu_listar_bluetooth, menu);
         return true;
     }
 

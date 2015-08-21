@@ -1,20 +1,21 @@
 package br.ufscar.dc.controledepatrimonio.Forms;
 
 import android.bluetooth.BluetoothDevice;
+import android.content.Intent;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Handler;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import br.ufscar.dc.controledepatrimonio.Entity.Patrimonio;
 import br.ufscar.dc.controledepatrimonio.R;
@@ -55,6 +56,8 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
     private TextView lblTotalTags;
     private ListView lstPatrimonio;
     private BaseAdapter mAdapterTag;
+    private Toolbar mToolbar;
+    private Patrimonio patrimonio;
     //endregion
 
     //region HANDLER
@@ -100,6 +103,36 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
             mAdapterTag = new TagAdapter(getApplicationContext(), leitor.getListaPatrimonio());
 
             lstPatrimonio.setAdapter(mAdapterTag);
+
+            lstPatrimonio.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(ListarEtiquetaActivity.this, CadPatrimonioActivity.class);
+                    Patrimonio patrimonio = leitor.getListaPatrimonio().get(position);
+
+                    if (patrimonio.getId() == 0) {
+                        intent.putExtra("tag", patrimonio.getIdentificacao());
+                    }
+                    else {
+
+                        intent.putExtra("patrimonio", patrimonio);
+                    }
+
+                    startActivity(intent);
+                }
+            });
+            //region Toolbar
+            mToolbar = (Toolbar) findViewById(R.id.ToolbarTop);
+            setSupportActionBar(mToolbar);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+            mToolbar.findViewById(R.id.btnVoltar).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            //endregion
         }
     }
 

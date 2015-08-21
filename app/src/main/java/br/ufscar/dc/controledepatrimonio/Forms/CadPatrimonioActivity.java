@@ -7,9 +7,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,8 +28,10 @@ public class CadPatrimonioActivity extends AppCompatActivity {
     private EditText txtDescricao;
     private EditText txtIdentificacao;
     private EditText txtEstado;
+    private EditText txtNome;
     private Spinner cboLocal;
     private Spinner cboResponsavel;
+    private CheckBox chkAtivo;
     private Database db;
     private Patrimonio patrimonio;
 
@@ -43,12 +48,14 @@ public class CadPatrimonioActivity extends AppCompatActivity {
         listaLocal = db.buscarLocais();
         listaResponsavel = db.buscarResponsaveis();
 
+        txtNome = (EditText) findViewById(R.id.txtNomePatrimonio);
         txtDescricao = (EditText) findViewById(R.id.txtDescricaoPatrimonio);
         txtIdentificacao = (EditText) findViewById(R.id.txtIdentificacaoPatrimonio);
         txtEstado = (EditText) findViewById(R.id.txtEstadoPatrimonio);
         cboLocal = (Spinner) findViewById(R.id.cboLocalPatrimonio);
         cboResponsavel = (Spinner) findViewById(R.id.cboResponsavel);
-
+        chkAtivo = (CheckBox) findViewById(R.id.chkAtivoPatrimonio);
+        chkAtivo.setChecked(true);
 
         ArrayAdapter<Local> adapterLocal = new ArrayAdapter<Local>(this, android.R.layout.simple_spinner_item, listaLocal);
         cboLocal.setAdapter(adapterLocal);
@@ -61,27 +68,41 @@ public class CadPatrimonioActivity extends AppCompatActivity {
         if (getIntent().hasExtra("patrimonio")) {
             patrimonio = (Patrimonio) getIntent().getExtras().getSerializable("patrimonio");
 
+            txtNome.setText(patrimonio.getNome());
             txtDescricao.setText(patrimonio.getDescricao());
             txtIdentificacao.setText(patrimonio.getIdentificacao());
             txtEstado.setText(patrimonio.getEstado());
+            chkAtivo.setChecked(patrimonio.getStatusRegistro());
 
             cboLocal.setId(patrimonio.getLocal().getId());
             cboResponsavel.setId(patrimonio.getResponsavel().getId());
         }
+        else if (getIntent().hasExtra("tag")) {
+            txtIdentificacao.setText(getIntent().getExtras().getString("tag").toString());
+        }
+
 
         final Button btnGravar = (Button) findViewById(R.id.btnGravarPatrimonio);
         btnGravar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (patrimonio.getId() == 0)
+                if (patrimonio == null)
                     patrimonio = new Patrimonio();
-                Date d = new Date();
+                DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                Date date = new Date();
 
-                patrimonio.setEnviarBancoOnline(true);
+                patrimonio.setNome(txtNome.getText().toString());
                 patrimonio.setIdentificacao(txtIdentificacao.getText().toString());
                 patrimonio.setDescricao(txtDescricao.getText().toString());
                 patrimonio.setEstado(txtEstado.getText().toString());
-                patrimonio.setDataEntrada(d);
+
+                patrimonio.setDataEntrada(date);
+                if (chkAtivo.isChecked())
+                    patrimonio.setStatusRegistro(true);
+                else
+                    patrimonio.setStatusRegistro(false)
+                            ;
+                patrimonio.setEnviarBancoOnline(true);
 
                 Local local = (Local) cboLocal.getSelectedItem();
 

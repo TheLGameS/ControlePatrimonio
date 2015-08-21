@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -26,15 +27,16 @@ public class Webservice {
     private URL urlJSOn;
     private String url;
     private HttpURLConnection con = null;
-    private final String URL_GRAILS = "http://192.168.0.10:8080/Patrimonio/";
+    private final String URL_GRAILS = "http://192.168.0.10:8090/PatrimonioRest/api/";
     private final String URL_AUTENTICAR = "http://192.168.0.10:8080/Patrimonio/j_spring_security_check";
     private final String USER_AGENT = "Mozilla/5.0";
+    private String URL_POST;
     private List<String> cookies;
     private HttpURLConnection conn;
 
     public Webservice(String url) {
         this.url = URL_GRAILS + url;
-        autenticar();
+        //autenticar();
     }
 
     public String getJSON() {
@@ -77,6 +79,11 @@ public class Webservice {
         return null;
     }
 
+    public void postJSON(String url_post, String json) {
+        URL_POST = URL_GRAILS + url_post;
+        sendPost(URL_POST, json, false);
+    }
+
     private void autenticar() {
         CookieHandler.setDefault(new CookieManager());
 
@@ -84,7 +91,8 @@ public class Webservice {
             String page = getPageContent(URL_AUTENTICAR);
             String postParams = getFormParams(page, "membro", "membro");
 
-            sendPost(URL_AUTENTICAR, postParams);
+            URL_POST = URL_AUTENTICAR;
+            sendPost(URL_AUTENTICAR, postParams, true);
 
             String result = getPageContent(url);
 
@@ -94,39 +102,57 @@ public class Webservice {
         }
     }
 
-    private void sendPost(String url, String postParams) throws Exception {
-        URL obj = new URL(url);
-        conn = (HttpURLConnection) obj.openConnection();
+    private void sendPost(String url, String postParams, boolean pegarRetorno) {
+        try {
+            HttpURLConnection httpcon = (HttpURLConnection) ((new URL("a url").openConnection()));
+            httpcon.setDoOutput(true);
+            httpcon.setRequestProperty("Content-Type", "application/json");
+            httpcon.setRequestProperty("Accept", "application/json");
+            httpcon.setRequestMethod("POST");
+            httpcon.connect();
 
-        conn.setUseCaches(false);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Host", "192.168.0.10:8080");
-        conn.setRequestProperty("User-Agent", USER_AGENT);
-        conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
-        conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-        conn.setRequestProperty("Connection", "keep-alive");
-        conn.setRequestProperty("Referer", URL_AUTENTICAR);
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-        conn.setRequestProperty("Content-Length", Integer.toString(postParams.length()));
+            byte[] outputBytes = "{'value': 7.5}".getBytes("UTF-8");
+            OutputStream os = httpcon.getOutputStream();
+            os.write(outputBytes);
 
-        conn.setDoOutput(true);
-        conn.setDoInput(true);
+            os.close();
 
-        DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
-        wr.writeBytes(postParams);
-        wr.flush();
-        wr.close();
+            //URL obj = new URL(url);
+            //conn = (HttpURLConnection) obj.openConnection();
 
-        int responseCode = conn.getResponseCode();
+            //conn.setUseCaches(false);
+            //conn.setRequestMethod("POST");
+            //conn.setRequestProperty("Host", "192.168.0.10:8080");
+            //conn.setRequestProperty("User-Agent", USER_AGENT);
+            //conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+            //conn.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+            /*conn.setRequestProperty("Connection", "keep-alive");
+            conn.setRequestProperty("Referer", URL_POST);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            conn.setRequestProperty("Content-Length", Integer.toString(postParams.length()));
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
 
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
+            DataOutputStream wr = new DataOutputStream(conn.getOutputStream());
+            wr.writeBytes(postParams);
+            wr.flush();
+            wr.close();
+
+            if (pegarRetorno) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
+                }
+                in.close();
+            }*/
         }
-        in.close();
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private String getPageContent(String url) throws Exception {

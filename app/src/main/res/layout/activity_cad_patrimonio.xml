@@ -17,6 +17,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
+            android:text="@string/lblNomePatrimonio"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:id="@+id/txtNomePatrimonio"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
             android:text="@string/lblDescricaoPatrimonio"
             android:textSize="20sp"/>
 
@@ -74,7 +86,17 @@
         <Spinner
             android:id="@+id/cboResponsavel"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_height="fill_parent"
+            android:paddingBottom="10dp"/>
+
+        <CheckBox
+            android:id="@+id/chkAtivoPatrimonio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblStatusPatrimonio"
+            android:textSize="20sp"/>
+
+
     </LinearLayout>
 
     <RelativeLayout

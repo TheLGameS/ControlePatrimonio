@@ -20,7 +20,7 @@ public class ResponsavelTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        Webservice webservice = new Webservice("responsavel/index.json");
+        Webservice webservice = new Webservice("api/Responsavel");
         String retorno = webservice.getJSON();
         return retorno;
     }

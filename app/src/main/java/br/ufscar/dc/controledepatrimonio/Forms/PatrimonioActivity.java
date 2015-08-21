@@ -17,7 +17,7 @@ public class PatrimonioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patrimonio);
 
-        Button btnGravar = (Button) findViewById(R.id.btnGravarPatrimonio);
+        Button btnGravar = (Button) findViewById(R.id.btnGravarPatrimonio_);
         Button btnListar = (Button) findViewById(R.id.btnListarPatrimonio);
 
         btnGravar.setOnClickListener(new View.OnClickListener() {

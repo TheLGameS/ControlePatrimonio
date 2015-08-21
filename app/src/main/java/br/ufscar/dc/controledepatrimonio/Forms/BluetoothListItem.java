@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class BluetoothListItem extends BaseAdapter {
     private List<BluetoothDevice> dispostivos;
     private LayoutInflater inflater;
     private Context ctx;
+    private ImageView imgBluetooth;
 
     public BluetoothListItem(Context ctx, List<BluetoothDevice> dispositivos) {
         this.dispostivos = dispositivos;
@@ -50,6 +52,8 @@ public class BluetoothListItem extends BaseAdapter {
 
         TextView txtCodigoDispositivo = (TextView) view.findViewById(R.id.txtCodigo_Dispositivo);
         txtCodigoDispositivo.setText(dispositivo.getAddress());
+
+        imgBluetooth = (ImageView) view.findViewById(R.id.imgBluetooth);
 
         return view;
     }

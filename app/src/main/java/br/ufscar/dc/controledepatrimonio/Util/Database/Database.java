@@ -117,6 +117,10 @@ public class Database {
         return new PatrimonioDao(db).buscarTodos();
     }
 
+    public List<Patrimonio> buscarPatrimoniosParaInserir() {
+        return new PatrimonioDao(db).buscarTodosParaInserir();
+    }
+
     public Patrimonio buscarPatrimonio(int id) {
         return new PatrimonioDao(db).buscarPorId(id);
     }

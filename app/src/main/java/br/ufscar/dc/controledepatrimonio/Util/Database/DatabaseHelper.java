@@ -51,12 +51,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE Patrimonio" +
                 "(" +
                 "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "Nome TEXT," +
                 "Descricao TEXT," +
                 "Identificacao TEXT," +
                 "Estado TEXT, DataEntrada TEXT," +
                 "Local INTEGER," +
                 "Responsavel INTEGER," +
-                "TagRFID TEXT," +
+                "statusRegistro TEXT," +
                 "enviarBancoOnline TEXT," +
                 "FOREIGN KEY (Local) REFERENCES Local(_id)," +
                 "FOREIGN KEY (Responsavel) REFERENCES Responsavel(_id)" +

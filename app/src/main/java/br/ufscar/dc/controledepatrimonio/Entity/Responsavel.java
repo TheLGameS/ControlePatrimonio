@@ -1,12 +1,19 @@
 package br.ufscar.dc.controledepatrimonio.Entity;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 public class Responsavel  implements Serializable {
+    @Expose
     private int id;
+    @Expose
     private String siape;
+    @Expose
     private String nome;
+    @Expose
     private String telefone;
+    @Expose
     private String funcao;
 
     public String getNome() {

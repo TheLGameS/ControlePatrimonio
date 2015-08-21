@@ -1,10 +1,15 @@
 package br.ufscar.dc.controledepatrimonio.Entity;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 public class Departamento implements Serializable{
+    @Expose
     private int id;
+    @Expose
     private String sigla;
+    @Expose
     private String nome;
 
 

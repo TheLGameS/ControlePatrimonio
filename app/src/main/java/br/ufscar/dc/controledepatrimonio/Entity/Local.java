@@ -1,13 +1,18 @@
 package br.ufscar.dc.controledepatrimonio.Entity;
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 
 public class Local  implements Serializable {
+    @Expose
     private int id;
+    @Expose
     private String nome;
+    @Expose
     private String descricao;
+    @Expose
     private Departamento departamento;
-    private int idExterno;
 
     public String getNome() {
         return nome;
@@ -44,13 +49,5 @@ public class Local  implements Serializable {
     @Override
     public String toString() {
         return descricao;
-    }
-
-    public int getIdExterno() {
-        return idExterno;
-    }
-
-    public void setIdExterno(int idExterno) {
-        this.idExterno = idExterno;
     }
 }

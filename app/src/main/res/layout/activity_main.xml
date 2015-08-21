@@ -1,48 +1,58 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#FFF"
     tools:context=".Main">
 
+    <ImageView
+        android:id="@+id/ivUFScar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:src="@drawable/dmufscar" />
+
     <LinearLayout
+        android:id="@+id/lvMain"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/llLogotipo"
-        android:orientation="vertical"
-        >
-
-        <ImageView
-            android:id="@+id/imgLogotipo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/dmufscar" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/frmbotoes"
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/llLogotipo"
+        android:layout_below="@+id/ivUFScar"
         android:orientation="horizontal">
 
-        <Button
+        <com.xgc1986.ripplebutton.widget.RippleButton
             android:id="@+id/btnIniciarRFID"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_weight="1"
-            android:text="RFID" />
+            android:text="@string/btnIniciar_Leitor"
+            android:textColor="#FFF"
+            app:buttonColor="#2196f3"
+            app:rippleColor="@android:color/white" />
 
-        <Button
+
+        <com.xgc1986.ripplebutton.widget.RippleButton
+            android:textColor="#FFF"
+            app:buttonColor="#2196f3"
+            app:rippleColor="@android:color/white"
             android:id="@+id/btnPatrimonio"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tool_bar"
             android:layout_weight="1"
             android:text="@string/btnPatrimonio" />
     </LinearLayout>
+
+
+    <include
+        android:id="@+id/ToolbarBootom"
+
+        layout="@layout/toolbar_bootom" />
+
 
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package br.ufscar.dc.controledepatrimonio.Entity;
 
 
+import com.google.gson.annotations.Expose;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -8,14 +10,24 @@ import br.ufscar.dc.controledepatrimonio.Entity.Local;
 import br.ufscar.dc.controledepatrimonio.Entity.Responsavel;
 
 public class Patrimonio implements Serializable {
+
     private int id;
+    @Expose
+    private String nome;
+    @Expose
     private String descricao;
+    @Expose
     private String identificacao;
+    @Expose
     private String estado;
+    @Expose
     private Date dataEntrada;
+    @Expose
     private Local local;
+    @Expose
     private Responsavel responsavel;
-    //private String TagRFID;
+    @Expose
+    private Boolean statusRegistro;
     private boolean enviarBancoOnline;
 
     public String getDescricao() {
@@ -96,5 +108,21 @@ public class Patrimonio implements Serializable {
     @Override
     public int hashCode() {
         return identificacao != null ? identificacao.hashCode() : 0;
+    }
+
+    public Boolean getStatusRegistro() {
+        return statusRegistro;
+    }
+
+    public void setStatusRegistro(Boolean statusRegistro) {
+        this.statusRegistro = statusRegistro;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

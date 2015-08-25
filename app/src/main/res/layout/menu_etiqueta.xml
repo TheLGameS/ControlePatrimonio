@@ -6,25 +6,25 @@
     android:orientation="vertical">
 
     <com.xgc1986.ripplebutton.widget.RippleButton
-        android:id="@+id/btnAlterarPatrimonio"
+        android:id="@+id/btnNovaEtiqueta"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/btnAlterar"
+        android:text="@string/btnNovaEtiqueta"
         android:textColor="#FFF"
         app:buttonColor="#2196f3"
         app:rippleColor="@android:color/white" />
 
     <com.xgc1986.ripplebutton.widget.RippleButton
-        android:id="@+id/btnExcluirPatrimonio"
+        android:id="@+id/btnSelecionarEtiqueta"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/btnExcluir"
+        android:text="@string/btnSelecionarEtiqueta"
         android:textColor="#FFF"
         app:buttonColor="#2196f3"
         app:rippleColor="@android:color/white" />
 
     <com.xgc1986.ripplebutton.widget.RippleButton
-        android:id="@+id/btnCancelar"
+        android:id="@+id/btnCancelarPatrimonio"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="@string/btnCancelar"

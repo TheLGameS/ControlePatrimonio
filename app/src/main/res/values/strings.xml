@@ -46,4 +46,8 @@
     <string name="opSIM">Sim</string>
     <string name="opNAO">Não</string>
     <string name="msgEnviarCarga">Deseja realizar o envio de dados?</string>
+    <string name="msgRegistroSalvo">Registro salvo com sucesso!</string>
+    <string name="btnNovaEtiqueta">Criar novo registro</string>
+    <string name="btnSelecionarEtiqueta">Usar em registro existente</string>
+
 </resources>

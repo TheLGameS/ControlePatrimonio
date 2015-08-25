@@ -1,5 +1,6 @@
 package br.ufscar.dc.controledepatrimonio.Forms;
 
+import android.app.Dialog;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Message;
@@ -10,8 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -108,17 +111,16 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent intent = new Intent(ListarEtiquetaActivity.this, CadPatrimonioActivity.class);
-                    Patrimonio patrimonio = leitor.getListaPatrimonio().get(position);
+                    patrimonio = leitor.getListaPatrimonio().get(position);
 
-                    if (patrimonio.getId() == 0) {
-                        intent.putExtra("tag", patrimonio.getIdentificacao());
+                    if (patrimonio.getId() != 0) {
+                        intent.putExtra("patrimonio", patrimonio);
+                        startActivity(intent);
                     }
                     else {
-
-                        intent.putExtra("patrimonio", patrimonio);
+                        abrirMenu();
                     }
 
-                    startActivity(intent);
                 }
             });
             //region Toolbar
@@ -233,7 +235,7 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_listar_etiqueta, menu);
+        //getMenuInflater().inflate(R.menu.menu_listar_etiqueta, menu);
         return true;
     }
 
@@ -253,4 +255,45 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
     }
 
     //endregion
+
+    public void abrirMenu() {
+        final Dialog dialog = new Dialog(ListarEtiquetaActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.menu_etiqueta);
+
+        Button btnNovo = (Button) dialog.findViewById(R.id.btnNovaEtiqueta);
+        Button btnSeleciona = (Button) dialog.findViewById(R.id.btnSelecionarEtiqueta);
+        Button btnCancelar = (Button) dialog.findViewById(R.id.btnCancelarPatrimonio);
+
+        btnNovo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListarEtiquetaActivity.this, CadPatrimonioActivity.class);
+                intent.putExtra("tag", patrimonio.getIdentificacao());
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+
+        btnSeleciona.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListarEtiquetaActivity.this, ListarPatrimonioActivity.class);
+                intent.putExtra("tag", patrimonio.getIdentificacao());
+                startActivity(intent);
+
+                dialog.dismiss();
+            }
+        });
+
+        btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
+    }
 }

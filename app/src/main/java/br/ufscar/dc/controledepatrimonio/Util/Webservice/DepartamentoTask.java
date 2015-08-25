@@ -23,7 +23,7 @@ public class DepartamentoTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
 
-        Webservice webservice = new Webservice("api/Departamento");
+        Webservice webservice = new Webservice("Departamento");
         String retorno = webservice.getJSON();
         return retorno;
     }

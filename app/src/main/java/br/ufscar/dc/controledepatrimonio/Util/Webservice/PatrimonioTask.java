@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
+import br.ufscar.dc.controledepatrimonio.Entity.Departamento;
 import br.ufscar.dc.controledepatrimonio.Entity.Patrimonio;
 import br.ufscar.dc.controledepatrimonio.Util.Database.Database;
 
@@ -34,12 +35,17 @@ public class PatrimonioTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        Webservice webservice = new Webservice("api/Patrimonio");
+        Webservice webservice = new Webservice("Patrimonio");
         String json = null;
 
         if (listaPatrimonio != null) {
+            Departamento departamento = new Departamento();
+
+            departamento.setSigla("TE");
+            departamento.setNome("TESTE");
+
             Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-            json = gson.toJson(listaPatrimonio);
+            json = gson.toJson(departamento);
         }
 
         switch (tipoTransacao) {
@@ -47,7 +53,7 @@ public class PatrimonioTask extends AsyncTask<Void, Void, String> {
                 String retorno = webservice.getJSON();
                 return retorno;
             case POST:
-                webservice.postJSON("Patrimonio", json);
+                webservice.postJSON("Departamento", json);
             case PUT:
                 webservice.postJSON("Patrimonio", json);
         }

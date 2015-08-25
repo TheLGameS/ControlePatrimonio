@@ -1,7 +1,10 @@
 package br.ufscar.dc.controledepatrimonio.Forms;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +37,7 @@ public class CadPatrimonioActivity extends AppCompatActivity {
     private CheckBox chkAtivo;
     private Database db;
     private Patrimonio patrimonio;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +61,11 @@ public class CadPatrimonioActivity extends AppCompatActivity {
         chkAtivo = (CheckBox) findViewById(R.id.chkAtivoPatrimonio);
         chkAtivo.setChecked(true);
 
-        ArrayAdapter<Local> adapterLocal = new ArrayAdapter<Local>(this, android.R.layout.simple_spinner_item, listaLocal);
+        ArrayAdapter<Local> adapterLocal = new ArrayAdapter<Local>(this, android.R.layout.simple_dropdown_item_1line, listaLocal);
         cboLocal.setAdapter(adapterLocal);
 
         ArrayAdapter<Responsavel> adapterResponsavel = new ArrayAdapter<Responsavel>(this,
-                android.R.layout.simple_spinner_item, listaResponsavel);
+                android.R.layout.simple_dropdown_item_1line, listaResponsavel);
 
         cboResponsavel.setAdapter(adapterResponsavel);
 
@@ -77,7 +81,8 @@ public class CadPatrimonioActivity extends AppCompatActivity {
             cboLocal.setId(patrimonio.getLocal().getId());
             cboResponsavel.setId(patrimonio.getResponsavel().getId());
         }
-        else if (getIntent().hasExtra("tag")) {
+
+        if (getIntent().hasExtra("tag")) {
             txtIdentificacao.setText(getIntent().getExtras().getString("tag").toString());
         }
 
@@ -117,14 +122,47 @@ public class CadPatrimonioActivity extends AppCompatActivity {
                 else
                     db.atualizarPatrimonio(patrimonio);
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(CadPatrimonioActivity.this);
+                builder.setMessage(R.string.msgRegistroSalvo)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                limparCampos();
+                                txtNome.requestFocus();
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+
             }
         });
+
+        //region Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.ToolbarTop);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mToolbar.findViewById(R.id.btnVoltar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //endregion
+    }
+
+    public void limparCampos() {
+        txtNome.setText("");
+        txtDescricao.setText("");
+        txtIdentificacao.setText("");
+        txtEstado.setText("");
+        chkAtivo.setChecked(true);
     }
 
     //region MÉTODOS NÃO UTILIZADOS
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_cad_patrimonio, menu);
+        //getMenuInflater().inflate(R.menu.menu_cad_patrimonio, menu);
         return true;
     }
 

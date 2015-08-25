@@ -22,7 +22,7 @@ public class LocalTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        Webservice webservice = new Webservice("api/Local");
+        Webservice webservice = new Webservice("Local");
         String retorno = webservice.getJSON();
         return retorno;
     }

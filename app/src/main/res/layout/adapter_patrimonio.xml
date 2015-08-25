@@ -17,25 +17,28 @@
             android:id="@+id/lblDescricaoPatrimonio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:text="Descrição do Patrimonio"
             android:textColor="#000"
-            android:text="Descrição do Patrimonio"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/lblLocalPatrimonio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lblDescricaoPatrimonio"
             android:layout_alignParentLeft="true"
-            android:text="Local do Patrimonio"/>
-
-        <TextView
-            android:id="@+id/lblResponsavelPatrimonio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_below="@+id/lblDescricaoPatrimonio"
-            android:layout_toRightOf="@+id/lblLocalPatrimonio"
-            android:text="Responsavel do Patrimonio"/>
+            android:text="Local do Patrimonio"
+            android:textSize="16sp" />
+
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/lblResponsavelPatrimonio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblDescricaoPatrimonio"
+        android:layout_toRightOf="@+id/lblLocalPatrimonio"
+        android:text="Responsavel do Patrimonio"
+        android:textSize="16sp" />
 
 </LinearLayout>

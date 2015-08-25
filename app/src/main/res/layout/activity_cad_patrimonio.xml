@@ -1,117 +1,142 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.ufscar.dc.controledepatrimonio.Forms.CadPatrimonioActivity">
+    android:orientation="vertical"
+    android:background="#FFF">
 
-    <LinearLayout
-        android:id="@+id/lvPatrimonio"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <include
+        android:id="@+id/ToolbarTop"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/lblNomePatrimonio"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/txtNomePatrimonio"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+        layout="@layout/tool_bar" />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/lblDescricaoPatrimonio"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/txtDescricaoPatrimonio"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-
-        <TextView
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/lblIdentificacaoPatrimonio"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/txtIdentificacaoPatrimonio"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:hint="@string/hintIdentificacaoPatrimonio"/>
-
-        <TextView
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/lblEstadoPatrimonio"
-            android:textSize="20sp"/>
-
-        <EditText
-            android:id="@+id/txtEstadoPatrimonio"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:hint="@string/hintEstadoPatrimonio"
-            />
-
-        <TextView
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/lblLocalPatrimonio"
-            android:textSize="20sp"/>
-
-        <Spinner
-            android:id="@+id/cboLocalPatrimonio"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
-
-        <TextView
-            android:paddingTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="@string/lblResponsavelPatrimonio"
-            android:textSize="20sp"/>
-
-        <Spinner
-            android:id="@+id/cboResponsavel"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:paddingBottom="10dp"/>
-
-        <CheckBox
-            android:id="@+id/chkAtivoPatrimonio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lblStatusPatrimonio"
-            android:textSize="20sp"/>
-
-
-    </LinearLayout>
-
-    <RelativeLayout
+    <ScrollView
+        android:id="@+id/ScrollView01"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/lvPatrimonio"
-        android:layout_alignParentBottom="true"
-        android:gravity="bottom">
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <Button
-            android:id="@+id/btnGravarPatrimonio"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/btnGravar"/>
+        <RelativeLayout
 
-    </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            tools:context="br.ufscar.dc.controledepatrimonio.Forms.CadPatrimonioActivity">
 
-</RelativeLayout>
+            <LinearLayout
+                android:id="@+id/lvPatrimonio"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="@string/lblNomePatrimonio"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/txtNomePatrimonio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:text="@string/lblDescricaoPatrimonio"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/txtDescricaoPatrimonio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="10dp"
+                    android:text="@string/lblIdentificacaoPatrimonio"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/txtIdentificacaoPatrimonio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:hint="@string/hintIdentificacaoPatrimonio" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="10dp"
+                    android:text="@string/lblEstadoPatrimonio"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/txtEstadoPatrimonio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:hint="@string/hintEstadoPatrimonio" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="10dp"
+                    android:text="@string/lblLocalPatrimonio"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/cboLocalPatrimonio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:paddingTop="10dp"
+                    android:text="@string/lblResponsavelPatrimonio"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/cboResponsavel"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:paddingBottom="10dp" />
+
+                <CheckBox
+                    android:id="@+id/chkAtivoPatrimonio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lblStatusPatrimonio"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+            <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/lvPatrimonio"
+                android:gravity="bottom">
+
+                <com.xgc1986.ripplebutton.widget.RippleButton
+                    android:id="@+id/btnGravarPatrimonio"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/btnGravar"
+                    android:textColor="#FFF"
+                    app:buttonColor="#2196f3"
+                    app:rippleColor="@android:color/white" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="br.ufscar.dc.controledepatrimonio" >
+    package="br.ufscar.dc.controledepatrimonio">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -11,10 +11,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.MyTheme" >
+
+        android:theme="@style/Theme.MyTheme">
         <activity
             android:name=".Forms.Main"
-            android:label="@string/app_name" >
+            android:screenOrientation="portrait"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,37 +25,43 @@
         </activity>
         <activity
             android:name=".Forms.DepartamentoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_departamento" />
         <activity
             android:name=".Forms.CadDepartamentoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_cad_departamento" />
         <activity
             android:name=".Forms.ListarDepartamentoActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_listar_departamento" />
         <activity
             android:name=".Forms.ListarBluetoothActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_listar_bluetooth" />
         <activity
             android:name=".Forms.CadResponsavelActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_cad_responsavel" />
         <activity
             android:name=".Forms.ListarEtiquetaActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_listar_etiqueta" />
 
         <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
 
         <activity
             android:name=".Forms.CadPatrimonioActivity"
-            android:label="@string/title_activity_cad_patrimonio" >
-        </activity>
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_cad_patrimonio"></activity>
         <activity
             android:name=".Forms.ListarPatrimonioActivity"
-            android:label="@string/title_activity_listar_patrimonio" >
-        </activity>
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_listar_patrimonio"></activity>
         <activity
             android:name=".Forms.PatrimonioActivity"
-            android:label="@string/title_activity_patrimonio" >
-        </activity>
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_patrimonio"></activity>
     </application>
 
 </manifest>

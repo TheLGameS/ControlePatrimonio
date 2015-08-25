@@ -3,6 +3,7 @@ package br.ufscar.dc.controledepatrimonio.Forms;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import br.ufscar.dc.controledepatrimonio.R;
 
 public class PatrimonioActivity extends AppCompatActivity {
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,25 @@ public class PatrimonioActivity extends AppCompatActivity {
                 finish();
             }
         });
+        //region Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.ToolbarTop);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mToolbar.findViewById(R.id.btnVoltar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //endregion
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_patrimonio, menu);
+        //getMenuInflater().inflate(R.menu.menu_patrimonio, menu);
         return true;
     }
 

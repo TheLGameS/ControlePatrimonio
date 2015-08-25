@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,8 @@ public class ListarPatrimonioActivity extends AppCompatActivity {
     private Database db;
     private List<Patrimonio> listaPatrimonio;
     private Patrimonio patrimonio;
+    private Toolbar mToolbar;
+    private String tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,10 @@ public class ListarPatrimonioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listar_patrimonio);
 
         db = new Database(ListarPatrimonioActivity.this);
+
+        if (getIntent().hasExtra("tag")) {
+            this.tag = (String) getIntent().getExtras().getString("tag");
+        }
 
         lstPatrimonios = (ListView) findViewById(R.id.lstPatrimonio);
         listaPatrimonio = db.buscarPatrimonios();
@@ -48,6 +55,33 @@ public class ListarPatrimonioActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        lstPatrimonios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (tag != null) {
+                    Intent intent = new Intent(ListarPatrimonioActivity.this, CadPatrimonioActivity.class);
+                    intent.putExtra("tag", tag);
+
+                    patrimonio = listaPatrimonio.get(position);
+                    intent.putExtra("patrimonio", patrimonio);
+                    startActivity(intent);
+                }
+            }
+        });
+
+        //region Toolbar
+        mToolbar = (Toolbar) findViewById(R.id.ToolbarTop);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mToolbar.findViewById(R.id.btnVoltar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //endregion
 
     }
 
@@ -66,7 +100,6 @@ public class ListarPatrimonioActivity extends AppCompatActivity {
                 Intent intent = new Intent(ListarPatrimonioActivity.this, CadPatrimonioActivity.class);
                 intent.putExtra("patrimonio", patrimonio);
                 startActivity(intent);
-                finish();
                 dialog.dismiss();
             }
         });
@@ -99,7 +132,7 @@ public class ListarPatrimonioActivity extends AppCompatActivity {
     //region MÉTODOS NÃO UTILIZADOS
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_listar_patrimonio, menu);
+        //getMenuInflater().inflate(R.menu.menu_listar_patrimonio, menu);
         return true;
     }
 

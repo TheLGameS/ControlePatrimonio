@@ -11,7 +11,8 @@ import br.ufscar.dc.controledepatrimonio.Entity.Responsavel;
 
 public class Patrimonio implements Serializable {
 
-    private int id;
+    //IDENTITY DA TABELA
+    private int cod;
     @Expose
     private String nome;
     @Expose
@@ -29,6 +30,8 @@ public class Patrimonio implements Serializable {
     @Expose
     private Boolean statusRegistro;
     private boolean enviarBancoOnline;
+    private boolean atualizarBancoOnline;
+    private int id;
 
     public String getDescricao() {
         return descricao;
@@ -78,12 +81,12 @@ public class Patrimonio implements Serializable {
         this.responsavel = responsavel;
     }
 
-    public int getId() {
-        return id;
+    public int getCod() {
+        return cod;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCod(int cod) {
+        this.cod = cod;
     }
 
     public boolean isEnviarBancoOnline() {
@@ -124,5 +127,21 @@ public class Patrimonio implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public boolean isAtualizarBancoOnline() {
+        return atualizarBancoOnline;
+    }
+
+    public void setAtualizarBancoOnline(boolean atualizarBancoOnline) {
+        this.atualizarBancoOnline = atualizarBancoOnline;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

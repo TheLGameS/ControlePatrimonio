@@ -113,7 +113,7 @@ public class ListarEtiquetaActivity extends AppCompatActivity implements OnBtEve
                     Intent intent = new Intent(ListarEtiquetaActivity.this, CadPatrimonioActivity.class);
                     patrimonio = leitor.getListaPatrimonio().get(position);
 
-                    if (patrimonio.getId() != 0) {
+                    if (patrimonio.getCod() != 0) {
                         intent.putExtra("patrimonio", patrimonio);
                         startActivity(intent);
                     }

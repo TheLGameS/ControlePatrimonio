@@ -38,28 +38,29 @@ public class PatrimonioTask extends AsyncTask<Void, Void, String> {
         Webservice webservice = new Webservice("Patrimonio");
         String json = null;
 
-        if (listaPatrimonio != null) {
-            Departamento departamento = new Departamento();
-
-            departamento.setSigla("TE");
-            departamento.setNome("TESTE");
-
-            Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-            json = gson.toJson(departamento);
+        if (tipoTransacao.equals(TransacaoJSON.GET)) {
+            String retorno = webservice.getJSON();
+            return retorno;
         }
+        else {
+            if (listaPatrimonio != null) {
+                for (Patrimonio patrimonio:listaPatrimonio) {
+                    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                    json = gson.toJson(patrimonio);
 
-        switch (tipoTransacao) {
-            case GET:
-                String retorno = webservice.getJSON();
-                return retorno;
-            case POST:
-                webservice.postJSON("Departamento", json);
-            case PUT:
-                webservice.postJSON("Patrimonio", json);
+                    switch (tipoTransacao) {
+                        case POST:
+                            webservice.postJSON("Patrimonio", json);
+                            break;
+                        case PUT:
+                            webservice.putJSON("Patrimonio/" + patrimonio.getId(), json);
+                            break;
+                    }
+                }
+            }
         }
 
         return null;
-
     }
 
     @Override

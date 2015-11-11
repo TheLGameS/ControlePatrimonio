@@ -18,8 +18,9 @@ import br.ufscar.dc.controledepatrimonio.Entity.Responsavel;
 
 public class PatrimonioDao {
     private SQLiteDatabase db;
-    String[] colunas = new String[]{"_id", "nome", "descricao", "dataentrada", "identificacao", "estado",
-            "local", "responsavel", "statusRegistro", "enviarbancoonline"};
+    String[] colunas = new String[]{"_cod", "nome", "descricao", "dataentrada", "identificacao", "estado",
+            "local", "responsavel", "statusRegistro", "enviarbancoonline", "atualizarBancoOnline",
+            "idGrails"};
 
     public PatrimonioDao(SQLiteDatabase db) {
         this.db = db;
@@ -30,7 +31,6 @@ public class PatrimonioDao {
         ContentValues val = new ContentValues();
 
         try {
-            //val.put("_id", patrimonio.getId());
             val.put("nome", patrimonio.getNome());
             val.put("dataEntrada", String.valueOf(patrimonio.getDataEntrada()));
             val.put("descricao", patrimonio.getDescricao());
@@ -38,8 +38,15 @@ public class PatrimonioDao {
             val.put("identificacao", patrimonio.getIdentificacao());
             val.put("local", patrimonio.getLocal().getId());
             val.put("responsavel", patrimonio.getResponsavel().getId());
-            val.put("statusRegistro", patrimonio.getStatusRegistro() ? 1 : 0);
+
+            if (patrimonio.getStatusRegistro() == true)
+                val.put("statusRegistro", "t");
+            else
+                val.put("statusRegistro", "f");
+
             val.put("enviarBancoOnline", patrimonio.isEnviarBancoOnline() ? 1 : 0);
+            val.put("atualizarBancoOnline", patrimonio.isAtualizarBancoOnline() ? 1 : 0);
+            val.put("idGrails", patrimonio.getId());
 
             db.insert("Patrimonio", null, val);
         } catch (Exception ex) {
@@ -51,26 +58,31 @@ public class PatrimonioDao {
         String statusRegistro;
         ContentValues val = new ContentValues();
 
-        val.put("_id", patrimonio.getId());
+        val.put("_cod", patrimonio.getCod());
         val.put("nome", patrimonio.getNome());
-        //val.put("dataEntrada", String.valueOf(patrimonio.getDataEntrada()));
         val.put("descricao", patrimonio.getDescricao());
         val.put("estado", patrimonio.getEstado());
         val.put("identificacao", patrimonio.getIdentificacao());
         val.put("local", patrimonio.getLocal().getId());
         val.put("responsavel", patrimonio.getResponsavel().getId());
-        val.put("statusRegistro", patrimonio.getStatusRegistro() ? 1 : 0);
+
+        if (patrimonio.getStatusRegistro() == true)
+            val.put("statusRegistro", "t");
+        else
+            val.put("statusRegistro", "f");
+
         val.put("enviarBancoOnline", patrimonio.isEnviarBancoOnline() ? 1 : 0);
+        val.put("atualizarBancoOnline", patrimonio.isAtualizarBancoOnline() ? 1 : 0);
 
         try {
-            db.update("Patrimonio", val, "_id=" + patrimonio.getId(), null);
+            db.update("Patrimonio", val, "_cod=" + patrimonio.getCod(), null);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public void deletar(Patrimonio patrimonio) {
-        db.delete("Patrimonio", "_id=" + patrimonio.getId(), null);
+        db.delete("Patrimonio", "_cod=" + patrimonio.getCod(), null);
     }
 
     public List<Patrimonio> buscarTodos() {
@@ -92,7 +104,7 @@ public class PatrimonioDao {
     }
 
     public Patrimonio buscarPorId(int id) {
-        Cursor cursor = db.query("Patrimonio", colunas, "_id =" + id, null, null, null, null);
+        Cursor cursor = db.query("Patrimonio", colunas, "_cod =" + id, null, null, null, null);
 
         return iniciarPatrimonio(cursor, true);
     }
@@ -108,7 +120,27 @@ public class PatrimonioDao {
             cursor.moveToFirst();
 
             do {
-                patrimonios.add(iniciarPatrimonio(cursor, false));
+                //patrimonios.add(iniciarPatrimonio(cursor, false));
+                patrimonios.add(iniciarPatrimonio(cursor, true));
+            } while (cursor.moveToNext());
+        }
+
+        return patrimonios;
+    }
+
+    public List<Patrimonio> buscarTodosParaAlterar() {
+        LocalDao localDao = new LocalDao(db);
+        ResponsavelDao responsavelDao = new ResponsavelDao(db);
+        List<Patrimonio> patrimonios = new ArrayList<>();
+
+        Cursor cursor = db.query("Patrimonio", colunas, "atualizarBancoOnline = 1", null, null, null, "dataEntrada ASC");
+
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            do {
+                //patrimonios.add(iniciarPatrimonio(cursor, false));
+                patrimonios.add(iniciarPatrimonio(cursor, true));
             } while (cursor.moveToNext());
         }
 
@@ -137,24 +169,10 @@ public class PatrimonioDao {
         ResponsavelDao responsavelDao = new ResponsavelDao(db);
 
         if (adicionarId)
-            patrimonio.setId(cursor.getInt(0));
+            patrimonio.setCod(cursor.getInt(0));
+
         patrimonio.setNome(cursor.getString(1));
         patrimonio.setDescricao(cursor.getString(2));
-
-/*        DateFormat dataFormato = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        try {
-            if (cursor.getString(3) == null) {
-                patrimonio.setDataEntrada(null);
-            } else {
-                Date data = dataFormato.parse(cursor.getString(3));
-                patrimonio.setDataEntrada(data);
-            }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }*/
-
-
         patrimonio.setIdentificacao(cursor.getString(4));
         patrimonio.setEstado(cursor.getString(5));
 
@@ -165,12 +183,22 @@ public class PatrimonioDao {
         responsavel = responsavelDao.buscarPorId(cursor.getInt(7));
         patrimonio.setResponsavel(responsavel);
 
-        if (cursor.getString(8) == "0")
+        if (cursor.getString(8).equals("t"))
             patrimonio.setStatusRegistro(true);
         else
             patrimonio.setStatusRegistro(false);
 
-        patrimonio.setEnviarBancoOnline(true);
+        if (cursor.getString(9).equals("1"))
+            patrimonio.setEnviarBancoOnline(true);
+        else
+            patrimonio.setEnviarBancoOnline(false);
+
+        if (cursor.getString(10).equals("1"))
+            patrimonio.setAtualizarBancoOnline(true);
+        else
+            patrimonio.setAtualizarBancoOnline(false);
+
+        patrimonio.setId(cursor.getInt(11));
 
         return patrimonio;
     }
@@ -179,5 +207,25 @@ public class PatrimonioDao {
     //DELETA TODOS QUE JÁ ESTÃO NA BASE ONLINE
     public void deletarTodos() {
         db.delete("patrimonio", "enviarBancoOnline=0", null);
+    }
+
+    public void deletarTodosNovos() {
+        db.delete("patrimonio", "enviarBancoOnline=1", null);
+    }
+
+    //INFORMA QUE O REGISTRO NÃO DEVE SER ENVIADO NOVAMENTE
+    public void registroEnviado(List<Patrimonio> patrimonios) {
+        ContentValues val = new ContentValues();
+
+        for (Patrimonio patrimonio: patrimonios) {
+            val.put("enviarBancoOnline", "0");
+            val.put("atualizarBancoOnline", "1");
+
+            try {
+                db.update("Patrimonio", val, "_cod=" + patrimonio.getCod(), null);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

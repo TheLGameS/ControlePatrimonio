@@ -126,6 +126,21 @@ public class Main extends AppCompatActivity {
                                 listaPatrimonio, PatrimonioTask.TransacaoJSON.POST);
 
                         patrimonioTaskPost.execute();
+                        //db.registroEnviado(listaPatrimonio);
+
+                        db.deletarTodosPatrimoniosNovos();
+                        db.registroEnviado(listaPatrimonio);
+
+                        PatrimonioTask patrimonioTaskGet = new PatrimonioTask(Main.this);
+                        patrimonioTaskGet.execute();
+
+                        listaPatrimonio.clear();
+
+                        listaPatrimonio = db.buscarPatrimoniosParaAlterar();
+                        PatrimonioTask patrimonioTaskPut = new PatrimonioTask(Main.this,
+                                listaPatrimonio, PatrimonioTask.TransacaoJSON.PUT);
+
+                        patrimonioTaskPut.execute();
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:

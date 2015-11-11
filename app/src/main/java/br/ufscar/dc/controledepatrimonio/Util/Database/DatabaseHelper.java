@@ -50,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //region TABELA: Patrimonio
         db.execSQL("CREATE TABLE Patrimonio" +
                 "(" +
-                "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "_cod INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Nome TEXT," +
                 "Descricao TEXT," +
                 "Identificacao TEXT," +
@@ -59,6 +59,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "Responsavel INTEGER," +
                 "statusRegistro TEXT," +
                 "enviarBancoOnline TEXT," +
+                "atualizarBancoOnline TEXT," +
+                "idGrails INT," +
                 "FOREIGN KEY (Local) REFERENCES Local(_id)," +
                 "FOREIGN KEY (Responsavel) REFERENCES Responsavel(_id)" +
                 ");");

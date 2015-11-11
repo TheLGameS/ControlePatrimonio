@@ -76,7 +76,10 @@ public class CadPatrimonioActivity extends AppCompatActivity {
             txtDescricao.setText(patrimonio.getDescricao());
             txtIdentificacao.setText(patrimonio.getIdentificacao());
             txtEstado.setText(patrimonio.getEstado());
-            chkAtivo.setChecked(patrimonio.getStatusRegistro());
+            if (patrimonio.getStatusRegistro() == true)
+                chkAtivo.setChecked(true);
+            else
+                chkAtivo.setChecked(false);
 
             cboLocal.setId(patrimonio.getLocal().getId());
             cboResponsavel.setId(patrimonio.getResponsavel().getId());
@@ -91,23 +94,35 @@ public class CadPatrimonioActivity extends AppCompatActivity {
         btnGravar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (patrimonio == null)
+                if (patrimonio == null) {
                     patrimonio = new Patrimonio();
+                    patrimonio.setEnviarBancoOnline(true);
+                    patrimonio.setAtualizarBancoOnline(false);
+                }
+                else {
+                    if (patrimonio.isEnviarBancoOnline()) {
+                        patrimonio.setAtualizarBancoOnline(false);
+                        patrimonio.setEnviarBancoOnline(true);
+                    }
+                    else {
+                        patrimonio.setAtualizarBancoOnline(true);
+                        patrimonio.setEnviarBancoOnline(false);
+                    }
+                }
+/*
                 DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 Date date = new Date();
-
+*/
                 patrimonio.setNome(txtNome.getText().toString());
                 patrimonio.setIdentificacao(txtIdentificacao.getText().toString());
                 patrimonio.setDescricao(txtDescricao.getText().toString());
                 patrimonio.setEstado(txtEstado.getText().toString());
 
-                patrimonio.setDataEntrada(date);
+//                patrimonio.setDataEntrada(date);
                 if (chkAtivo.isChecked())
                     patrimonio.setStatusRegistro(true);
                 else
-                    patrimonio.setStatusRegistro(false)
-                            ;
-                patrimonio.setEnviarBancoOnline(true);
+                    patrimonio.setStatusRegistro(false);
 
                 Local local = (Local) cboLocal.getSelectedItem();
 
@@ -117,8 +132,10 @@ public class CadPatrimonioActivity extends AppCompatActivity {
 
                 patrimonio.setResponsavel(responsavel);
 
-                if (patrimonio.getId() == 0)
+                if (patrimonio.getCod() == 0) {
+                    patrimonio.setEnviarBancoOnline(true);
                     db.inserirPatrimonio(patrimonio);
+                }
                 else
                     db.atualizarPatrimonio(patrimonio);
 
@@ -127,10 +144,13 @@ public class CadPatrimonioActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                limparCampos();
-                                txtNome.requestFocus();
+                                //limparCampos();
+                                finish();
+
+                                //txtNome.requestFocus();
                             }
                         });
+
                 AlertDialog alert = builder.create();
                 alert.show();
 

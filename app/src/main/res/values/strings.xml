@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Controle de Patrimonio</string>
+    <string name="app_name">Patrimonio Mobile</string>
     <string name="title_activity_departamento">Departamento</string>
     <string name="title_activity_cad_departamento">Cadastro de Departamento</string>
 
@@ -49,5 +49,6 @@
     <string name="msgRegistroSalvo">Registro salvo com sucesso!</string>
     <string name="btnNovaEtiqueta">Criar novo registro</string>
     <string name="btnSelecionarEtiqueta">Usar em registro existente</string>
+    <string name="lblDescPatrimonio">Descricao do Patrimonio</string>
 
 </resources>

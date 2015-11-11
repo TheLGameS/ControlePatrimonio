@@ -121,6 +121,10 @@ public class Database {
         return new PatrimonioDao(db).buscarTodosParaInserir();
     }
 
+    public List<Patrimonio> buscarPatrimoniosParaAlterar() {
+        return new PatrimonioDao(db).buscarTodosParaAlterar();
+    }
+
     public Patrimonio buscarPatrimonio(int id) {
         return new PatrimonioDao(db).buscarPorId(id);
     }
@@ -132,5 +136,11 @@ public class Database {
     public void deletarTodosPatrimonios() {
         new PatrimonioDao(db).deletarTodos();
     }
+
+    public void deletarTodosPatrimoniosNovos() {
+        new PatrimonioDao(db).deletarTodosNovos();
+    }
+
+    public void registroEnviado(List<Patrimonio> patrimonios) { new PatrimonioDao(db).registroEnviado(patrimonios);}
     //endregion
 }

@@ -21,14 +21,24 @@
             android:textColor="#000"
             android:textSize="20sp" />
 
+
+        <TextView
+            android:id="@+id/lblDescPatrimonio"
+            android:layout_below="@+id/lblDescricaoPatrimonio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lblDescPatrimonio"/>
+
         <TextView
             android:id="@+id/lblLocalPatrimonio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/lblDescricaoPatrimonio"
+            android:layout_below="@+id/lblDescPatrimonio"
             android:text="Local do Patrimonio"
             android:textSize="16sp" />
+
+
 
     </RelativeLayout>
 

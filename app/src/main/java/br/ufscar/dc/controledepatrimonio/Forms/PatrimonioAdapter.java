@@ -51,9 +51,11 @@ public class PatrimonioAdapter extends BaseAdapter {
             TextView lblPatrimonio = (TextView) layout.findViewById(R.id.lblDescricaoPatrimonio);
             TextView lblLocal = (TextView) layout.findViewById(R.id.lblLocalPatrimonio);
             TextView lblResponsael = (TextView) layout.findViewById(R.id.lblResponsavelPatrimonio);
+            TextView lblDescPatrimonio = (TextView) layout.findViewById(R.id.lblDescPatrimonio);
 
-            lblPatrimonio.setText(patrimonio.getDescricao());
+            lblPatrimonio.setText(patrimonio.getNome());
             lblLocal.setText(patrimonio.getLocal().getDescricao());
+            lblDescPatrimonio.setText(patrimonio.getDescricao());
             lblResponsael.setText(patrimonio.getResponsavel().getNome());
 
             return layout;

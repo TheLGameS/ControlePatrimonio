@@ -30,7 +30,8 @@ public class Webservice {
     private URL urlJSOn;
     private String url;
     private HttpURLConnection con = null;
-    private final String URL_GRAILS = "http://192.168.0.10:8080/Patrimonio/api/";
+    //private final String URL_GRAILS = "http://192.168.0.16:8080/Patrimonio/api/";
+    private final String URL_GRAILS = "http://192.168.1.49:8080/Patrimonio/api/";
     private final String USER_AGENT = "Mozilla/5.0";
     private String URL_POST;
     private List<String> cookies;
@@ -85,6 +86,11 @@ public class Webservice {
         sendPost(URL_POST, json);
     }
 
+    public void putJSON(String url_post, String json) {
+        URL_POST = URL_GRAILS + url_post;
+        sendPut(URL_POST, json);
+    }
+
     private void sendPost(String url, String postParams) {
         try {
             BufferedReader reader=null;
@@ -113,5 +119,32 @@ public class Webservice {
         }
     }
 
+    private void sendPut(String url, String postParams) {
+        try {
+            BufferedReader reader=null;
+
+            URL obj = new URL(url);
+            conn = (HttpURLConnection) obj.openConnection();
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setRequestMethod("PUT");
+            conn.connect();
+
+
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+            wr.write(postParams);
+            wr.flush();
+            wr.close();
+
+            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            conn.disconnect();
+        }
+    }
 
 }

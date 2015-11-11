@@ -14,15 +14,26 @@
         android:layout_height="wrap_content"
         android:text="Etiqueta/Nome Patrimonio"
         android:textColor="#000"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lblDescPatrimonio2"
+        android:layout_below="@+id/lblPatrimonio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblDescPatrimonio"
+        android:textSize="16sp"
+        android:textColor="#000"
+        />
 
     <TextView
         android:id="@+id/lblLocalizacao"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lblPatrimonio"
-        android:textSize="12sp"
+        android:layout_below="@+id/lblDescPatrimonio2"
+        android:textSize="14sp"
+        android:textColor="#000"
         android:text="Localização" />
 
 </RelativeLayout>

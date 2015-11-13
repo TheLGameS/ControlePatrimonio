@@ -35,7 +35,7 @@ public class PatrimonioTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-        Webservice webservice = new Webservice("Patrimonio");
+        Webservice webservice = new Webservice(ctx, "Patrimonio");
         String json = null;
 
         if (tipoTransacao.equals(TransacaoJSON.GET)) {

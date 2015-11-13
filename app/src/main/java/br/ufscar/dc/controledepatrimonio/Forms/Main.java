@@ -3,13 +3,19 @@ package br.ufscar.dc.controledepatrimonio.Forms;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+
 import java.util.List;
 import br.ufscar.dc.controledepatrimonio.Entity.Patrimonio;
 import br.ufscar.dc.controledepatrimonio.R;
@@ -23,6 +29,8 @@ public class Main extends AppCompatActivity {
     private Database db;
 
     private Toolbar mToolbarBootom;
+    private String m_Text = "";
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +88,15 @@ public class Main extends AppCompatActivity {
             }
         });
         //endregion
+
+        ImageView imgConfig = (ImageView) findViewById(R.id.btnSettings);
+        imgConfig.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                exibirConfig();
+            }
+        });
     }
 
     //region carregarDados: REALIZA O DOWNLOAD DOS DADOS DA APLICAÇÃO GRAILS
@@ -179,4 +196,45 @@ public class Main extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     //endregion
+
+    private void exibirConfig() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String op = prefs.getString("webservice", null);
+
+        builder.setTitle("Endereço Webservice");
+
+        final EditText input = new EditText(this);
+
+        if (op != null)
+            input.setText(op);
+        else
+            input.setText("http://192.168.1.49:8080/Patrimonio/api/");
+
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                m_Text = input.getText().toString();
+
+                SharedPreferences.Editor editor = prefs.edit();
+
+                editor.putString("webservice", m_Text);
+                editor.commit();
+            }
+        });
+
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
 }

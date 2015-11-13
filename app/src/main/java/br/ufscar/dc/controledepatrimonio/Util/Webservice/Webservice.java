@@ -1,6 +1,9 @@
 package br.ufscar.dc.controledepatrimonio.Util.Webservice;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.jsoup.Jsoup;
@@ -31,14 +34,20 @@ public class Webservice {
     private String url;
     private HttpURLConnection con = null;
     //private final String URL_GRAILS = "http://192.168.0.16:8080/Patrimonio/api/";
-    private final String URL_GRAILS = "http://192.168.1.49:8080/Patrimonio/api/";
+    //private final String URL_GRAILS = "http://192.168.1.49:8080/Patrimonio/api/";
+    private String URL_GRAILS;
     private final String USER_AGENT = "Mozilla/5.0";
     private String URL_POST;
     private List<String> cookies;
     private HttpURLConnection conn;
+    private Context ctx;
+    private SharedPreferences prefs;
 
-    public Webservice(String url) {
+    public Webservice(Context ctx, String url) {
+        prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+        URL_GRAILS = prefs.getString("webservice", null);
         this.url = URL_GRAILS + url;
+        this.ctx = ctx;
     }
 
     public String getJSON() {
